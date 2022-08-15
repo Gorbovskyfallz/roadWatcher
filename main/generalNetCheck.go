@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -29,14 +28,16 @@ func generalNetCheck() error {
 // func with sudo for stopping rtsp-server
 func stopServerService(netErr error) {
 	if netErr != nil {
-		//admin := "sudo"
+		admin := "sudo"
 		who := "systemctl"
 		what := "stop"
-		whom := "rtsp-simple-server.service"
-		cmd := exec.Command(who, what, whom)
+		whom := "rtsp-simple-server.service" // пробы идут на докере
+		cmd := exec.Command(admin, who, what, whom)
 		log.Print("systemctl: ", cmd.Run())
 		//дописать проверку остановки потока во избежание косяка флешки сделать булевую перменную
 		// на ретурн
+		fmt.Println("stopped server service")
+
 	}
 
 }
@@ -47,10 +48,10 @@ func unmountFlash(netErr error) {
 		admin := "sudo"
 		who := "umount"
 		what := "/media/flash"
-		cmd := exec.Command(admin, who, what)
-		expectedError := errors.New("")
-		umountError := fmt.Errorf("%w", cmd.Run())
-		fmt.Println(umountError.)
+		_ = exec.Command(admin, who, what)
+		//expectedError := errors.New("")
+		//umountError := fmt.Errorf( "%w", cmd.Run())
+
 	}
 	// добавить проверку, извлечена ли флешка
 
