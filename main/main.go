@@ -1,9 +1,13 @@
 package main
 
+import "fmt"
+
 func main() {
 
-	//stopServerService(errors.New(""))
-	//unmountFlash(generalNetCheck())
-	CheckPID("")
+	kek := new(RegHand)
+
+	kek.NetworkStatus.GeneralNetCheck("com", "80")
+
+	fmt.Println(kek.NetworkStatus)
 
 }

@@ -3,40 +3,37 @@ package main
 import (
 	"fmt"
 	"log"
-	"net"
 	"os"
 	"os/exec"
-	"time"
 )
 
 // func checking general (not vpn) network with net.DIalTimeout
-func generalNetCheck() error {
-
-	host := "google.com"
-	port := "80"
-	timeout := time.Duration(5 * time.Second)
-	_, generalNeterr := net.DialTimeout("tcp", host+":"+port, timeout)
-
-	if generalNeterr != nil {
-		log.Print(host+":"+port, " not responding ", generalNeterr.Error())
-		return generalNeterr
-	}
-
-	return nil
-
-}
+//func GeneralNetCheck(host string, port string) (uptime bool) {
+//
+//	//host := "google.com"
+//	//port := "80"
+//	timeout := 5 * time.Second
+//	_, generalNeterr := net.DialTimeout("tcp", host+":"+port, timeout)
+//
+//	if generalNeterr != nil {
+//		log.Print(host+":"+port, " not responding ", generalNeterr.Error())
+//		uptime = false
+//	} else {
+//		uptime = true
+//	}
+//
+//	return
+//
+//}
 
 // func with sudo for stopping rtsp-server
-func stopServerService(netErr error) (exitStatus *os.ProcessState) {
-	if netErr != nil {
+func StopServerService(uptime bool, serviceName string) (exitStatus *os.ProcessState) {
+	if uptime == false {
 		admin := "sudo"
 		who := "systemctl"
 		what := "stop"
-		whom := "docker.service"
-		cmd := exec.Command(admin, who, what, whom)
+		cmd := exec.Command(admin, who, what, serviceName)
 		log.Print("systemctl: ", cmd.Run())
-		//дописать проверку остановки потока во избежание косяка флешки сделать булевую перменную
-		// на ретурн
 		fmt.Println("stopped server service")
 		exitStatus = cmd.ProcessState
 
