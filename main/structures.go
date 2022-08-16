@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -74,4 +75,23 @@ func (f *FlashUse) CheckPid(processName string) bool {
 	}
 
 	return f.ProcessWork
+}
+
+func (f *FlashUse) CheckService(serviceName string) bool {
+
+	// sudo systemctl status docker.service | grep Active
+	grep := exec.Command("grep", "Active")
+	command := exec.Command("systemctl", "status", serviceName)
+	pipe, _ := command.StdoutPipe()
+	defer pipe.Close()
+	grep.Stdin = pipe
+	command.Start()
+	res, _ := grep.Output()
+	if strings.Contains(string(res), "active (running)") {
+		f.ServiceWork = true
+	} else {
+		f.ServiceWork = false
+	}
+
+	return f.ServiceWork
 }

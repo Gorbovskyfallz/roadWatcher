@@ -43,12 +43,28 @@ func TestNetwork_VpnNetCheck(t *testing.T) {
 func TestFlashUse_CheckPid(t *testing.T) {
 	testStruct := new(FlashUse)
 
-	testStruct.CheckPid("ffmpeg")
+	testStruct.CheckPid("ffplay")
 	// start the htop of ffmpeg!! must be true while process in running
 	if testStruct.ProcessWork == true {
 		t.Log("passed")
 	} else {
 		t.Errorf("ecpected \"true\", but received %t, or testing process os not runnig at this moment.", testStruct.ProcessWork)
+	}
+
+}
+
+func TestFlashUse_CheckService(t *testing.T) {
+
+	testStruct := new(FlashUse)
+
+	testStruct.CheckService("docker.service")
+
+	//while docker service is active!!
+
+	if testStruct.ServiceWork == true {
+		t.Log("passed")
+	} else {
+		t.Errorf("expected value is \"true\", but received value is %t", testStruct.ServiceWork)
 	}
 
 }
