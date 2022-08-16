@@ -43,8 +43,8 @@ func TestNetwork_VpnNetCheck(t *testing.T) {
 func TestFlashUse_CheckPid(t *testing.T) {
 	testStruct := new(FlashUse)
 
-	testStruct.CheckPid("htop")
-	// start the htop of ffmpeg!!
+	testStruct.CheckPid("ffmpeg")
+	// start the htop of ffmpeg!! must be true while process in running
 	if testStruct.ProcessWork == true {
 		t.Log("passed")
 	} else {
