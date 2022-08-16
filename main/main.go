@@ -2,7 +2,8 @@ package main
 
 func main() {
 
-	stopServerService(generalNetCheck())
+	//stopServerService(errors.New(""))
 	//unmountFlash(generalNetCheck())
+	CheckPID("")
 
 }
