@@ -39,3 +39,16 @@ func TestNetwork_VpnNetCheck(t *testing.T) {
 	}
 
 }
+
+func TestFlashUse_CheckPid(t *testing.T) {
+	testStruct := new(FlashUse)
+
+	testStruct.CheckPid("htop")
+	// start the htop of ffmpeg!!
+	if testStruct.ProcessWork == true {
+		t.Log("passed")
+	} else {
+		t.Errorf("ecpected \"true\", but received %t, or testing process os not runnig at this moment.", testStruct.ProcessWork)
+	}
+
+}

@@ -58,3 +58,20 @@ func (n *Network) VpnNetCheck(host string) bool {
 	return n.VpnNetworkStatus
 
 }
+
+func (f *FlashUse) CheckPid(processName string) bool {
+	who := "pidof"
+	with := "-s"
+
+	out, _ := exec.Command(who, with, processName).Output()
+
+	fmt.Println(len(out))
+	log.Print(string(out))
+	if len(out) != 0 {
+		f.ProcessWork = true
+	} else {
+		f.ProcessWork = false
+	}
+
+	return f.ProcessWork
+}
