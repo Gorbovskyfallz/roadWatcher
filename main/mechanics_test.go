@@ -18,26 +18,26 @@ func TestCheckPID(t *testing.T) {
 
 }
 
-func TestGeneralNetCheck(t *testing.T) {
-	address := "google.com"
-	port := "80"
-	boolRes := GeneralNetCheck(address, port)
-	if boolRes == true {
-		t.Log("passed, value is:", boolRes)
-	} else {
-		t.Error("not passed, value is:", boolRes)
-	}
-
-	failAddress := "com"
-	failPort := "81"
-	boolRes = GeneralNetCheck(failAddress, failPort)
-	if boolRes == false {
-		t.Log("passed, value is:", boolRes)
-	} else {
-		t.Error("not passed, value is:", boolRes)
-	}
-
-}
+//func TestGeneralNetCheck(t *testing.T) {
+//	address := "google.com"
+//	port := "80"
+//	boolRes := ModemNetCheck(address, port)
+//	if boolRes == true {
+//		t.Log("passed, value is:", boolRes)
+//	} else {
+//		t.Error("not passed, value is:", boolRes)
+//	}
+//
+//	failAddress := "com"
+//	failPort := "81"
+//	boolRes = ModemNetCheck(failAddress, failPort)
+//	if boolRes == false {
+//		t.Log("passed, value is:", boolRes)
+//	} else {
+//		t.Error("not passed, value is:", boolRes)
+//	}
+//
+//}
 
 func TestStopServerService(t *testing.T) {
 

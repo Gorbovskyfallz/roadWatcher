@@ -8,7 +8,7 @@ import (
 )
 
 // func checking general (not vpn) network with net.DIalTimeout
-//func GeneralNetCheck(host string, port string) (uptime bool) {
+//func ModemNetCheck(host string, port string) (uptime bool) {
 //
 //	//host := "google.com"
 //	//port := "80"

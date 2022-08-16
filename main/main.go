@@ -6,7 +6,7 @@ func main() {
 
 	kek := new(RegHand)
 
-	kek.NetworkStatus.GeneralNetCheck("com", "80")
+	kek.NetworkStatus.ModemNetCheck("com", "80")
 
 	fmt.Println(kek.NetworkStatus)
 
