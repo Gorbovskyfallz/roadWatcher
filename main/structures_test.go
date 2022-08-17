@@ -68,3 +68,30 @@ func TestFlashUse_CheckService(t *testing.T) {
 	}
 
 }
+
+func TestNewRegHand(t *testing.T) {
+
+	testStruct := NewRegHand()
+
+	if testStruct.NetworkStatus.VpnNetworkStatus == true {
+		t.Log("VPN: must passed if vpn is enabled")
+	} else {
+		t.Errorf("VPN: expected \"true\", but received %t", testStruct.NetworkStatus.VpnNetworkStatus)
+	}
+	if testStruct.NetworkStatus.ModemNetWorkStatus == true {
+		t.Log("GlobalNetwork: must passed if network is enabled")
+	} else {
+		t.Errorf("GlobalNetwork: expected \"true\", but received %t", testStruct.NetworkStatus.ModemNetWorkStatus)
+	}
+	if testStruct.FlashUse.ProcessWork == true {
+		t.Log("ProcessWork: must passed if ffmpeg is executing now")
+	} else {
+		t.Errorf("ProcessWork: expected \"true\", but received %t", testStruct.FlashUse.ProcessWork)
+	}
+	if testStruct.FlashUse.ServiceWork == true {
+		t.Log("ServiceWork: must passed if rtsp-simple-server.service is executing now")
+	} else {
+		t.Errorf("ServiceWork: expected \"true\", but received %t", testStruct.FlashUse.ServiceWork)
+	}
+
+}
