@@ -12,7 +12,7 @@ import (
 type RegHand struct {
 	NetworkStatus Network
 	FlashUse      FlashUse
-	FlashMount    bool
+	FlashMount    FlashMount
 }
 
 type FlashUse struct {
@@ -23,6 +23,12 @@ type FlashUse struct {
 type Network struct {
 	ModemNetWorkStatus bool
 	VpnNetworkStatus   bool
+}
+
+type FlashMount struct {
+	Mounted    string
+	MountPoint string
+	DeviceName string
 }
 
 func (n *Network) ModemNetCheck(host string, port string) bool {
