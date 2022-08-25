@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func MountI(mountpath string) {
+func MountI(mountPath, devPath string) (exitStatus int) {
 	//infoMount, mountErr := minfo.Mounted(mountpath) // а есть ли маунт в эту директорию?
 	//if mountErr != nil {
 	//	log.Println("dir ", mountpath, "have no mountpoints: ", mountErr)
@@ -17,14 +17,26 @@ func MountI(mountpath string) {
 	//	log.Panic(kek)
 	//}
 
-	if mountErr := unix.Mount("/dev/sdb1", "/media/passed3", "exfat", 0, ""); mountErr != nil {
-		log.Println("error:", mountErr)
-		if mountErr.Error() == "no such file or diectory" {
-			log.Println("passed assert err")
+	if mountErr := unix.Mount(devPath, mountPath, "exfat", unix.MS_MGC_VAL, ""); mountErr != nil {
+		switch {
+		case mountErr.Error() == "no such device":
+			log.Println(mountErr)
+			exitStatus = 1
+			return
+		case mountErr.Error() == "no such file or directory":
+			log.Println(mountErr)
+			exitStatus = 2
+		//проверить, чего нет, устройства или точки монтирования
+		case mountErr.Error() == "device or resourse busy":
+			log.Println(mountErr)
+			exitStatus = 3
+
 		}
 
 	} else {
-		log.Println("mounted")
+		log.Println("mounted device:", devPath, "on mountpoint: ", mountPath)
 	}
+	exitStatus = 0
+	return
 
 }
