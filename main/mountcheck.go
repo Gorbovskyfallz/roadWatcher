@@ -31,6 +31,7 @@ func MountI(devPath, mountPath string) (exitStatus int) {
 			log.Println(mountErr)
 			exitStatus = 3
 		default:
+			log.Println(mountErr)
 			exitStatus = 0
 
 		}

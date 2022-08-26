@@ -2,20 +2,6 @@ package main
 
 import "testing"
 
-func TestMountNoDevise(t *testing.T) {
-	// используй битый путь
-	resultNoDevice := 1
-
-	noDeviceTest := MountI("/dev/sdb1", "/media/passed3")
-	if noDeviceTest != resultNoDevice {
-		t.Error("expected:", resultNoDevice, "but received:", noDeviceTest)
-	} else {
-		t.Log("noDeviceTest: PASSED")
-	}
-	// нужна примонтированнная флешка
-
-}
-
 // before testing u must be sure, that flash <devPath> is mounted to <mountPath>
 func TestBusyDevice(t *testing.T) {
 	devPath := "/dev/sdb1"
@@ -35,4 +21,14 @@ func TestNoErrMount(t *testing.T) {
 	if noErr := MountI(devPath, mountPath); noErr != noErrExit {
 		t.Error("expected exit=0, but received:", noErr)
 	}
+}
+
+func TestNoSuchFileDir(t *testing.T) {
+	devPath := "/dev/sdb1"
+	badMountPath := "/media/passed"
+	noFileExit := 2
+	if noFileDir := MountI(devPath, badMountPath); noFileDir != noFileExit {
+		t.Error("expected noFileExit=2, but received:", noFileExit)
+	}
+
 }
