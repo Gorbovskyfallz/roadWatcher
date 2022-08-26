@@ -26,3 +26,13 @@ func TestBusyDevice(t *testing.T) {
 	}
 
 }
+
+// before testing u nust be sure, that flash is exist, and is not mounted
+func TestNoErrMount(t *testing.T) {
+	devPath := "/dev/sdb1"
+	mountPath := "/media/passed3"
+	noErrExit := 0
+	if noErr := MountI(devPath, mountPath); noErr != noErrExit {
+		t.Error("expected exit=0, but received:", noErr)
+	}
+}
