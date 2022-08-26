@@ -1,7 +1,10 @@
 package main
 
+import "log"
+
 func main() {
 
-	MountI("/run/media/jupyter/E264-9720")
+	res := MountI("/dev/sdb1", "/media/passed3")
+	log.Println(res)
 
 }
