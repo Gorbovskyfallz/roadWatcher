@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 // before testing u must be sure, that flash <devPath> is mounted to <mountPath>
 func TestBusyDevice(t *testing.T) {
@@ -23,12 +25,26 @@ func TestNoErrMount(t *testing.T) {
 	}
 }
 
+// неправильный путь к точке монтирования
 func TestNoSuchFileDir(t *testing.T) {
 	devPath := "/dev/sdb1"
 	badMountPath := "/media/passed"
 	noFileExit := 2
+
 	if noFileDir := MountI(devPath, badMountPath); noFileDir != noFileExit {
 		t.Error("expected noFileExit=2, but received:", noFileExit)
 	}
 
+}
+
+// invalid argument while trying to mount with bad dev path INVALID ARGUMENT
+// flash card must be unmounted to pass this test
+func TestBadDevNotMounted(t *testing.T) {
+	//unix.Unmount("/media/passed3", 0)
+	badDevPath := "/dev/sdb"
+	MountPath := "/media/passed3"
+	invalidArgExit := 4
+	if badDevPath := MountI(badDevPath, MountPath); badDevPath != invalidArgExit {
+		t.Errorf("expected %v, but received: %v", invalidArgExit, badDevPath)
+	}
 }

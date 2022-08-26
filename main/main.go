@@ -4,7 +4,7 @@ import "log"
 
 func main() {
 
-	res := MountI("/dev/sdb1", "/media/pased3")
+	res := MountI("/dev/sdb1", "/media/passd3")
 	log.Println(res)
 
 }

@@ -30,6 +30,9 @@ func MountI(devPath, mountPath string) (exitStatus int) {
 		case mountErr.Error() == "device or resource busy":
 			log.Println(mountErr)
 			exitStatus = 3
+		case mountErr.Error() == "invalid argument":
+			log.Println(mountErr)
+			exitStatus = 4
 		default:
 			log.Println(mountErr)
 			exitStatus = 0
