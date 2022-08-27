@@ -88,6 +88,15 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 
 }
 
+var St *unix.Stat_t
+
+func MountPoints() (pointPath string) {
+
+	MountPoint := unix.Lstat("/media/passed3", St)
+
+	return
+}
+
 // unmount all flash from mediamountdir
 func (f *FlashMount) UmountPoint(mountPoint string) int {
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
