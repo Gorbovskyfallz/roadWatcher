@@ -50,3 +50,9 @@ func TestBadDevNotMounted(t *testing.T) {
 		t.Errorf("expected %v, but received: %v", invalidArgExit, badDevPath)
 	}
 }
+
+func TestFlashMount_UmountPoint(t *testing.T) {
+	testStruct := new(FlashMount)
+
+	testStruct.UmountPoint()
+}

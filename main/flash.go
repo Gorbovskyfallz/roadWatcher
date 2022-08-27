@@ -9,9 +9,11 @@ import (
 )
 
 type FlashMount struct {
-	Mounted    string
-	MountPoint string
-	DeviceName string
+	Mounted       string
+	MountPoint    string
+	DeviceName    string
+	MountStatus   int
+	UnmountStatus int
 }
 
 type FlashUse struct {
@@ -19,6 +21,7 @@ type FlashUse struct {
 	ProcessWork bool
 }
 
+// check potentional disaster procces using the flash
 func (f *FlashUse) CheckPid(processName string) bool {
 	who := "pidof"
 	with := "-s"
@@ -36,6 +39,7 @@ func (f *FlashUse) CheckPid(processName string) bool {
 	return f.ProcessWork
 }
 
+// checkin service that's processes ffmpeg+gpio things
 func (f *FlashUse) CheckService(serviceName string) bool {
 
 	// sudo systemctl status docker.service | grep Active
@@ -79,7 +83,18 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 		}
 
 	}
-
+	exitStatus = f.MountStatus
 	return
+
+}
+
+// unmount all flash from mediamountdir
+func (f *FlashMount) UmountPoint(mountPoint string) int {
+	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
+		log.Printf("an errror %w occured, while unmounting")
+	}
+
+	f.UnmountStatus = 0 // good
+	return f.UnmountStatus
 
 }
