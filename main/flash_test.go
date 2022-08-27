@@ -53,6 +53,9 @@ func TestBadDevNotMounted(t *testing.T) {
 
 func TestFlashMount_UmountPoint(t *testing.T) {
 	testStruct := new(FlashMount)
-
-	testStruct.UmountPoint()
+	mountPointPaths := "/media/"
+	testStruct.UmountPoint(mountPointPaths)
+	if testStruct.UnmountStatus != 0 {
+		t.Log("error while unmounting:")
+	}
 }

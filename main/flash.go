@@ -83,7 +83,7 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 		}
 
 	}
-	exitStatus = f.MountStatus
+
 	return
 
 }
@@ -91,7 +91,9 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 // unmount all flash from mediamountdir
 func (f *FlashMount) UmountPoint(mountPoint string) int {
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
-		log.Printf("an errror %w occured, while unmounting")
+		log.Printf("an error \"%s\" occured, while unmounting", unmountErr)
+	} else {
+		log.Print("unmounted")
 	}
 
 	f.UnmountStatus = 0 // good
