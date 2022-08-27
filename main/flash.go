@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/moby/sys/mountinfo"
 	"golang.org/x/sys/unix"
 	"log"
 	"os/exec"
@@ -9,54 +10,20 @@ import (
 )
 
 type FlashMount struct {
-	Mounted       string
-	MountPoint    string
-	DeviceName    string
-	MountStatus   int
-	UnmountStatus int
+	Mounted    bool   // from checker
+	MountPoint string // from config
+	DeviceName string // from config
+	FlashUse   FlashUse
 }
 
-type FlashUse struct {
-	ServiceWork bool
-	ProcessWork bool
-}
+func (f *FlashMount) MountInfo(configMountPoint string) (mounted bool, mountInfoErr error) {
 
-// check potentional disaster procces using the flash
-func (f *FlashUse) CheckPid(processName string) bool {
-	who := "pidof"
-	with := "-s"
-
-	out, _ := exec.Command(who, with, processName).Output()
-
-	fmt.Println(len(out))
-	log.Print(string(out))
-	if len(out) != 0 {
-		f.ProcessWork = true
-	} else {
-		f.ProcessWork = false
+	if mounted, mountInfoErr = mountinfo.Mounted(configMountPoint); mountInfoErr != nil {
+		log.Printf("an error \"%v\" occured while checking the mountpoints", mountInfoErr)
+		return mounted, mountInfoErr
 	}
-
-	return f.ProcessWork
-}
-
-// checkin service that's processes ffmpeg+gpio things
-func (f *FlashUse) CheckService(serviceName string) bool {
-
-	// sudo systemctl status docker.service | grep Active
-	grep := exec.Command("grep", "Active")
-	command := exec.Command("systemctl", "status", serviceName)
-	pipe, _ := command.StdoutPipe()
-	defer pipe.Close()
-	grep.Stdin = pipe
-	command.Start()
-	res, _ := grep.Output()
-	if strings.Contains(string(res), "active (running)") {
-		f.ServiceWork = true
-	} else {
-		f.ServiceWork = false
-	}
-
-	return f.ServiceWork
+	f.Mounted = mounted
+	return f.Mounted, mountInfoErr
 }
 
 // not consider some errors of mount e.x. accsess perms (ronly...)
@@ -96,7 +63,49 @@ func (f *FlashMount) UmountPoint(mountPoint string) int {
 		log.Print("unmounted")
 	}
 
-	f.UnmountStatus = 0 // good
-	return f.UnmountStatus
+	return 0 /////
 
+}
+
+type FlashUse struct {
+	ServiceWork bool // check service selected from config
+	ProcessWork bool // check process from config
+}
+
+// check potentional disaster procces using the flash
+func (f *FlashUse) CheckPid(processName string) bool {
+	who := "pidof"
+	with := "-s"
+
+	out, _ := exec.Command(who, with, processName).Output()
+
+	fmt.Println(len(out))
+	log.Print(string(out))
+	if len(out) != 0 {
+		f.ProcessWork = true
+	} else {
+		f.ProcessWork = false
+	}
+
+	return f.ProcessWork
+}
+
+// checkin service that's processes ffmpeg+gpio things
+func (f *FlashUse) CheckService(serviceName string) bool {
+
+	// sudo systemctl status docker.service | grep Active
+	grep := exec.Command("grep", "Active")
+	command := exec.Command("systemctl", "status", serviceName)
+	pipe, _ := command.StdoutPipe()
+	defer pipe.Close()
+	grep.Stdin = pipe
+	command.Start()
+	res, _ := grep.Output()
+	if strings.Contains(string(res), "active (running)") {
+		f.ServiceWork = true
+	} else {
+		f.ServiceWork = false
+	}
+
+	return f.ServiceWork
 }

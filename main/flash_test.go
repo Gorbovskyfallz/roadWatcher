@@ -51,11 +51,21 @@ func TestBadDevNotMounted(t *testing.T) {
 	}
 }
 
-func TestFlashMount_UmountPoint(t *testing.T) {
+//func TestFlashMount_UmountPoint(t *testing.T) {
+//	testStruct := new(FlashMount)
+//	mountPointPaths := "/media/"
+//	testStruct.UmountPoint(mountPointPaths)
+//	if testStruct.UnmountStatus != 0 {
+//		t.Log("error while unmounting:")
+//	}
+//}
+
+func TestFlashMount_MountInfo(t *testing.T) {
+	//for umounted flash
+	path := "/media/passed3"
 	testStruct := new(FlashMount)
-	mountPointPaths := "/media/"
-	testStruct.UmountPoint(mountPointPaths)
-	if testStruct.UnmountStatus != 0 {
-		t.Log("error while unmounting:")
+	testStruct.MountInfo(path)
+	if testStruct.Mounted != true {
+		t.Error("|while flash is mounted| expected true, but received:", testStruct.Mounted)
 	}
 }
