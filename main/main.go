@@ -1,10 +1,11 @@
 package main
 
-import "log"
+import (
+	"fmt"
+	"github.com/moby/sys/mountinfo"
+)
 
 func main() {
-
-	res := MountFlash("/dev/sda", "/media/passed1")
-	log.Println(res)
-
+	kek, _ := mountinfo.Mounted("/media/passed3")
+	fmt.Println(kek)
 }
