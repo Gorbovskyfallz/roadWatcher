@@ -34,7 +34,7 @@ func (n *Network) ModemNetCheck(host string, port string) bool {
 func (n *Network) VpnNetCheck(host string) bool {
 
 	who := "ping"
-	with := "-c 3"
+	with := "-c 3" // дописать в сигнутуру функции количество пинга, чтобы можно было гибко настраивать
 	connCheck := exec.Command(who, with, host).Run()
 	fmt.Println("this err: ", connCheck)
 

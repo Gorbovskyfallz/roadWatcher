@@ -1,0 +1,20 @@
+# network testing
+
+
+# ip address e.x. vpn server to check the vpn connection by "ping" util in unix, format: string <10.0.0.1>
+privateNetwork:
+# ip address with port to checkout global internet connection, format string <8.8.8.8>
+globalNetwork:
+# port for global network check, format int32 <8080>
+globalNetworkPort:
+# defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
+pingTimesForVpn:
+
+# bot access api token in format 5430641389:AAEyEdYacEU_9E8cBmfoef-iqn0BAqQAleY
+tokenBotApi:
+
+#Flash config
+# path to dev flash, that can be used to record videos, format string </dev/sda>
+# note: for more stabiity u can use usb flash card only with one partition
+pathToDev:
+mountPointPath:
