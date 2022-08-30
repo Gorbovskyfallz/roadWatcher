@@ -19,6 +19,7 @@ type GlobalNetSettings struct {
 	GlobalNetwork       string
 	GlobalNetWorkPort   int
 	GlobalRebootTimeout int
+	RebootIfFail        bool
 }
 type Security struct {
 	EnableTokenConfigParse bool
@@ -30,5 +31,9 @@ type Flash struct {
 }
 
 type Hardware struct {
-	Ledindication string
+	Ledindication bool
+}
+
+func (f *Config) ParseConfig() {
+
 }
