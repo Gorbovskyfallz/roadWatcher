@@ -7,7 +7,7 @@ privateNetwork: 10.0.0.1
 # defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
 pingTimesForVpn: 3
 # reboot vpn service while check VPN if failed, format bool <true/false>
-rebootOnPrivateFail: true
+rebootWhilePrivateFail: true
 # defer the timeout before rebooting VPN service after detecting no connection to vpn server, format int in seconds <10>
 vpnRebootTimeout: 300
 
@@ -21,7 +21,7 @@ globalNetworkPort: 80
 # defer the timeout before rebooting device after detecting no connection to global network, format int in seconds <10>
 globalRebootTimeout: 300
 # enable rebooting while globalnetworkchec failed, format bool <true/false>
-rebootOnGlobalFail: true
+rebootWhileGlobalFail: true
 
 
 # security
@@ -35,9 +35,9 @@ tokenBotApi: fff
 
 # path to dev flash, that can be used to record videos, format string </dev/sda>
 # note: for more stabiity u can use usb flash card only with one partition
-pathToDev: /dev/sda
+pathToDevice: /dev/sda
 # path to mountpoint in format </media/passed3>
-mountPointPath: /media/passed3
+pathToMountPoint: /media/passed3
 
 
 # hardware

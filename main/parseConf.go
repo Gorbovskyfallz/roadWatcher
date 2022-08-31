@@ -17,7 +17,7 @@ type Config struct {
 type VpnSettings struct {
 	PrivateNetwork      string `yaml:"privateNetwork"`
 	PingTimesForVpn     int    `yaml:"pingTimesForVpn"`
-	RebootOnPrivateFail bool   `yaml:"rebootOnPrivateFail"`
+	RebootOnPrivateFail bool   `yaml:"rebootWhilePrivateFail"`
 	VpnRebootTimeout    int    `yaml:"vpnRebootTimeout"`
 }
 
@@ -25,15 +25,15 @@ type GlobalNetSettings struct {
 	GlobalNetwork       string `yaml:"globalNetwork"`
 	GlobalNetWorkPort   int    `yaml:"globalNetworkPort"`
 	GlobalRebootTimeout int    `yaml:"globalRebootTimeout"`
-	RebootIfFail        bool   `yaml:"rebootOnGlobalFail"`
+	RebootIfFail        bool   `yaml:"rebootWhileGlobalFail"`
 }
 type Security struct {
 	EnableTokenConfigParse bool   `yaml:"enableTokenConfigParse"`
 	TokenBotApi            string `yaml:"tokenBotApi"`
 }
 type Flash struct {
-	PathToDev      string `yaml:"pathToDev"`
-	MountPointPath string `yaml:"mountPointPath"`
+	PathToDev      string `yaml:"pathToDevice"`
+	MountPointPath string `yaml:"pathToMountPoint"`
 }
 
 type Hardware struct {
