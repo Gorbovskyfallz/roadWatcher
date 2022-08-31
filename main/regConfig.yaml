@@ -26,7 +26,7 @@ globalRebootTimeout: 300
 # security
 # enable token input from config, if no, program will be ask to enter token from keyboard, format bool <true/false>
 enableTokenConfigParse: fff
-# bot access api token in format string  <5430641389:AAEyEdYacEU_9E8cBmfoef-iqn0BAqQAleY>
+# bot access api token in format string  <5430641389:AAEycEU_9EleY>
 tokenBotApi: true
 
 # flash config
@@ -42,3 +42,5 @@ mountPointPath: /dev/sda
 
 # enable led indication in format bool <true/false>
 ledIndication: true
+# enable somthing
+someEnable: true
