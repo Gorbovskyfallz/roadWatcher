@@ -48,3 +48,11 @@ func TestConfig_ParseConfig(t *testing.T) {
 	fmt.Println(*receivedConfig)
 
 }
+
+func TestConfig_ParseFromTwoDirs(t *testing.T) {
+	testConfig := new(Config)
+	_, err := testConfig.ParseFromTwoDirs("regConfig.yaml", "/etc/")
+	if err != nil {
+		t.Errorf("expected nil, but received \"%v\"", err)
+	}
+}

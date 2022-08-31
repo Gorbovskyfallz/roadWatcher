@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"gopkg.in/yaml.v2"
 	"log"
 	"os"
@@ -40,14 +41,31 @@ type Hardware struct {
 	LedIndication bool `yaml:"ledIndication"`
 }
 
-func (f *Config) ParseConfig(configFilePath string) *Config {
+func (f *Config) ParseConfig(configFilePath string) (*Config, error) {
 	yamlFile, yamlParseErr := os.ReadFile(configFilePath)
 	if yamlParseErr != nil {
-		log.Panicf("an error occured while parsing configFile: %v", yamlParseErr)
+		log.Println("Parseconfig: yamlParse:", yamlParseErr)
+		return nil, yamlParseErr
 	}
 	unmarshErr := yaml.Unmarshal(yamlFile, f)
 	if unmarshErr != nil {
-		log.Panicf("an error occured while unmarshaling configFille: %v", unmarshErr)
+		log.Println("ParseConfig: unmarshParse:", unmarshErr)
+		return nil, unmarshErr
 	}
-	return f
+	return f, nil
+}
+
+func (f *Config) ParseFromTwoDirs(firstPath, SecondPath string) (*Config, error) {
+	_, homeDirErr := f.ParseConfig(firstPath)
+	if homeDirErr != nil {
+		if errors.Unwrap(homeDirErr).Error() == "no such file or directory" {
+			_, etcDirConfigErr := f.ParseConfig(SecondPath)
+			if etcDirConfigErr != nil {
+				log.Fatalln("main: no config in /etc/ or home dirs, terminate")
+				return nil, etcDirConfigErr
+			}
+
+		}
+	}
+	return f, nil
 }
