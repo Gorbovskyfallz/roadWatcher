@@ -3,7 +3,7 @@
 # VPN settings
 
 # ip address e.x. vpn server to check the vpn connection by "ping" util in unix, format: string <10.0.0.1>
-privateNetwork: "10.0.0.1"
+privateNetwork: 10.0.0.1
 # defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
 pingTimesForVpn: 3
 # reboot vpn service while check VPN if failed, format bool <true/false>
@@ -13,34 +13,35 @@ vpnRebootTimeout: 300
 
 
 # global network behaviour settings
-
-# ip address with port to checkout global internet connection, format string <8.8.8.8>
-globalNetwork: 8.8.8.8
+#GlobalNetSettings:
+# ip address with port to check out global internet connection, format string <8.8.8.8>
+globalNetwork: "8.8.8.8"
 # port for global network check, format int32 <8080>
 globalNetworkPort: 80
-# enable rebooting while globalnetworkchec failed, format bool <true/false>
-rebootOnGlobalFail: true
 # defer the timeout before rebooting device after detecting no connection to global network, format int in seconds <10>
 globalRebootTimeout: 300
+# enable rebooting while globalnetworkchec failed, format bool <true/false>
+rebootOnGlobalFail: true
+
 
 # security
+
 # enable token input from config, if no, program will be ask to enter token from keyboard, format bool <true/false>
-enableTokenConfigParse: fff
+enableTokenConfigParse: true
 # bot access api token in format string  <5430641389:AAEycEU_9EleY>
-tokenBotApi: true
+tokenBotApi: fff
 
 # flash config
 
 # path to dev flash, that can be used to record videos, format string </dev/sda>
 # note: for more stabiity u can use usb flash card only with one partition
-pathToDev: /dev/passed3
+pathToDev: /dev/sda
 # path to mountpoint in format </media/passed3>
-mountPointPath: /dev/sda
+mountPointPath: /media/passed3
 
 
 # hardware
-
+#Hardware:
 # enable led indication in format bool <true/false>
 ledIndication: true
-# enable somthing
-someEnable: true
+

@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestConfig_ParseConfig(t *testing.T) {
 	expectedConfig := new(Config)
@@ -14,19 +17,34 @@ func TestConfig_ParseConfig(t *testing.T) {
 	expectedConfig.VpnSettings.PingTimesForVpn = 3
 	expectedConfig.VpnSettings.VpnRebootTimeout = 300
 
-	expectedConfig.Flash.MountPointPath = "dev/passed3"
-	expectedConfig.Flash.PathToDev = "dev/sda"
+	expectedConfig.Flash.MountPointPath = "/media/passed3"
+	expectedConfig.Flash.PathToDev = "/dev/sda"
 
 	expectedConfig.Security.EnableTokenConfigParse = true
 	expectedConfig.Security.TokenBotApi = "fff"
 
-	expectedConfig.Hardware.Ledindication = true
+	expectedConfig.Hardware.LedIndication = true
 
 	receivedConfig := new(Config)
-	receivedConfig.ParseConfig()
+	receivedConfig.ParseConfig("/home/passed3/GolandProjects/rpi-registartor/main/regConfig.yaml")
 
-	if receivedConfig != expectedConfig {
-		t.Errorf("config're not pass")
+	if expectedConfig.Flash != receivedConfig.Flash {
+		t.Errorf("flash Section does not match")
 	}
+	if expectedConfig.VpnSettings != receivedConfig.VpnSettings {
+		t.Errorf("vpn setting section does not match")
+	}
+	if expectedConfig.GlobalNetSettings != receivedConfig.GlobalNetSettings {
+		t.Errorf("global network section does not match")
+	}
+	if expectedConfig.Security != receivedConfig.Security {
+		t.Errorf("security section does not match")
+	}
+	if expectedConfig.Hardware != receivedConfig.Hardware {
+		t.Error("Hardware section does not match")
+	}
+
+	fmt.Println(*expectedConfig)
+	fmt.Println(*receivedConfig)
 
 }
