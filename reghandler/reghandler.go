@@ -1,9 +1,14 @@
-package main
+package reghandler
+
+import (
+	"kek/flash"
+	"kek/network"
+)
 
 type RegHand struct {
-	NetworkStatus Network
-	FlashUse      FlashUse
-	FlashMount    FlashMount
+	NetworkStatus network.Network
+	FlashUse      flash.FlashUse
+	FlashMount    flash.FlashMount
 }
 
 func NewRegHand() (completeRegHand RegHand) {

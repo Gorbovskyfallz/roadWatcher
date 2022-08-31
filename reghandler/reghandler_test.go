@@ -1,11 +1,12 @@
-package main
+package reghandler
 
 import (
+	"kek/flash"
 	"testing"
 )
 
 func TestFlashUse_CheckPid(t *testing.T) {
-	testStruct := new(FlashUse)
+	testStruct := new(flash.FlashUse)
 
 	testStruct.CheckPid("ffplay")
 	// start the htop of ffmpeg!! must be true while process in running
@@ -19,7 +20,7 @@ func TestFlashUse_CheckPid(t *testing.T) {
 
 func TestFlashUse_CheckService(t *testing.T) {
 
-	testStruct := new(FlashUse)
+	testStruct := new(flash.FlashUse)
 
 	testStruct.CheckService("docker.service")
 
