@@ -22,5 +22,15 @@ func main() {
 	} else {
 		log.Println("succsess")
 	}
-
+	go func() {
+		for {
+			select {
+			case ev := <-watch.Events:
+				if ev.Op&fsnotify.Write == fsnotify.Write {
+					log.Println("writed")
+				}
+			}
+		}
+	}()
+	select {}
 }
