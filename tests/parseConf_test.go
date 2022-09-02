@@ -57,3 +57,15 @@ func TestConfig_ParseFromTwoDirs(t *testing.T) {
 		t.Errorf("expected nil, but received \"%v\"", err)
 	}
 }
+func TestSwitchTokenInput(t *testing.T) {
+
+	testConf := new(parseConf.Config)
+	// input by cli
+	testConf.Security.EnableTokenConfigParse = true
+	testConf.Security.TokenBotApi = ""
+	testConf.SwitchTokenInput()
+	if testConf.Security.TokenBotApi != "qwerty" {
+		t.Errorf("expected \"qwerty\", but received \"%s\"", testConf.Security.TokenBotApi)
+	}
+
+}
