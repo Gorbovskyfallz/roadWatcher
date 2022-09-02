@@ -1,12 +1,13 @@
-package network
+package tests
 
 import (
 	"fmt"
+	"kek/network"
 	"testing"
 )
 
 func TestNetwork_GeneralNetCheck(t *testing.T) {
-	testStruct := new(Network)
+	testStruct := new(network.Network)
 
 	testStruct.ModemNetCheck("google.com", "80")
 	fmt.Println(testStruct.ModemNetWorkStatus)
@@ -28,7 +29,7 @@ func TestNetwork_GeneralNetCheck(t *testing.T) {
 
 func TestNetwork_VpnNetCheck(t *testing.T) {
 
-	testStruct := new(Network)
+	testStruct := new(network.Network)
 
 	testStruct.VpnNetCheck("10.0.0.1")
 

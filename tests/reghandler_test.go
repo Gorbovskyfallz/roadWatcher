@@ -1,7 +1,8 @@
-package reghandler
+package tests
 
 import (
 	"kek/flash"
+	"kek/reghandler"
 	"testing"
 )
 
@@ -36,7 +37,7 @@ func TestFlashUse_CheckService(t *testing.T) {
 
 func TestNewRegHand(t *testing.T) {
 
-	testStruct := NewRegHand()
+	testStruct := reghandler.NewRegHand()
 
 	if testStruct.NetworkStatus.VpnNetworkStatus == true {
 		t.Log("VPN: must passed if vpn is enabled")

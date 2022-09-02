@@ -1,6 +1,7 @@
-package flash
+package tests
 
 import (
+	"kek/flash"
 	"testing"
 )
 
@@ -9,7 +10,7 @@ func TestBusyDevice(t *testing.T) {
 	devPath := "/dev/sdb1"
 	mountPath := "/media/passed3"
 	deviceBusy := 3
-	if busyDevice := MountFlash(devPath, mountPath); busyDevice != deviceBusy {
+	if busyDevice := flash.MountFlash(devPath, mountPath); busyDevice != deviceBusy {
 		t.Error("expected 3, but received:", busyDevice)
 	}
 
@@ -20,7 +21,7 @@ func TestNoErrMount(t *testing.T) {
 	devPath := "/dev/sdb1"
 	mountPath := "/media/passed3"
 	noErrExit := 0
-	if noErr := MountFlash(devPath, mountPath); noErr != noErrExit {
+	if noErr := flash.MountFlash(devPath, mountPath); noErr != noErrExit {
 		t.Error("expected exit=0, but received:", noErr)
 	}
 }
@@ -31,7 +32,7 @@ func TestNoSuchFileDir(t *testing.T) {
 	devPath := "/dev/sdb1"
 	badMountPath := "/media/passed"
 	noFileExit := 2
-	if noFileDir := MountFlash(devPath, badMountPath); noFileDir != noFileExit {
+	if noFileDir := flash.MountFlash(devPath, badMountPath); noFileDir != noFileExit {
 		t.Error("expected noFileExit=2, but received:", noFileExit)
 	}
 
@@ -46,7 +47,7 @@ func TestBadDevNotMounted(t *testing.T) {
 	badDevPath := "/dev/sdb"
 	MountPath := "/media/passed3"
 	invalidArgExit := 4
-	if badDevPath := MountFlash(badDevPath, MountPath); badDevPath != invalidArgExit {
+	if badDevPath := flash.MountFlash(badDevPath, MountPath); badDevPath != invalidArgExit {
 		t.Errorf("expected %v, but received: %v", invalidArgExit, badDevPath)
 	}
 }
@@ -63,7 +64,7 @@ func TestBadDevNotMounted(t *testing.T) {
 func TestFlashMount_MountInfo(t *testing.T) {
 	//for umounted flash
 	path := "/media/passed3"
-	testStruct := new(FlashMount)
+	testStruct := new(flash.FlashMount)
 	testStruct.MountInfo(path)
 	if testStruct.Mounted != true {
 		t.Error("|while flash is mounted| expected true, but received:", testStruct.Mounted)

@@ -1,12 +1,13 @@
-package parseConf
+package tests
 
 import (
 	"fmt"
+	"kek/parseConf"
 	"testing"
 )
 
 func TestConfig_ParseConfig(t *testing.T) {
-	expectedConfig := new(Config)
+	expectedConfig := new(parseConf.Config)
 	expectedConfig.GlobalNetSettings.GlobalNetwork = "8.8.8.8"
 	expectedConfig.GlobalNetSettings.GlobalNetWorkPort = 80
 	expectedConfig.GlobalNetSettings.GlobalRebootTimeout = 300
@@ -25,7 +26,7 @@ func TestConfig_ParseConfig(t *testing.T) {
 
 	expectedConfig.Hardware.LedIndication = true
 
-	receivedConfig := new(Config)
+	receivedConfig := new(parseConf.Config)
 	receivedConfig.ParseConfig("/home/passed3/GolandProjects/rpi-registartor/main/regConfig.yaml")
 
 	if expectedConfig.Flash != receivedConfig.Flash {
@@ -50,7 +51,7 @@ func TestConfig_ParseConfig(t *testing.T) {
 }
 
 func TestConfig_ParseFromTwoDirs(t *testing.T) {
-	testConfig := new(Config)
+	testConfig := new(parseConf.Config)
 	_, err := testConfig.ParseFromTwoDirs("regConfig.yaml", "/etc/")
 	if err != nil {
 		t.Errorf("expected nil, but received \"%v\"", err)

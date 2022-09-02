@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"kek/network"
-	"kek/parseConf"
 )
 
 func main() {
@@ -13,6 +12,5 @@ func main() {
 
 	kek := new(network.Network)
 	fmt.Println(kek)
-	kok := new(parseConf.Config)
 
 }
