@@ -75,8 +75,9 @@ func (f *Config) SwitchTokenInput() (*Config, error) {
 
 	switch {
 	case f.Security.EnableTokenConfigParse == true && f.Security.TokenBotApi != "":
-		log.Println("mutually exclusive conditions: select only one way to introduce botApiToken: through config" +
-			"or CLI")
+		fmt.Println("mutually exclusive conditions: select only one way to introduce botApiToken -  through config" +
+			"or CLI, deleting info about token in config. Please, enter api token from keyboard:")
+		fmt.Scanln(&f.Security.TokenBotApi)
 	case f.Security.EnableTokenConfigParse == true && f.Security.TokenBotApi == "":
 		fmt.Println("you selected parsing bot api from CLI, please enter your token in string format:")
 		fmt.Scanln(&f.Security.TokenBotApi)

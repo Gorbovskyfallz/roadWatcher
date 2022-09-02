@@ -29,7 +29,7 @@ rebootWhileGlobalFail: true
 # enable token input from config, if no, program will be ask to enter token from keyboard, format bool <true/false>
 enableTokenConfigParse: true
 # bot access api token in format string  <5430641389:AAEycEU_9EleY>
-tokenBotApi: fff
+tokenBotApi:
 
 # flash config
 
@@ -41,7 +41,6 @@ pathToMountPoint: /media/passed3
 
 
 # hardware
-#Hardware:
 # enable led indication in format bool <true/false>
 ledIndication: true
 
