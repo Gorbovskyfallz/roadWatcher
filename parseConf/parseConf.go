@@ -44,12 +44,12 @@ type Hardware struct {
 func (f *Config) ParseConfig(configFilePath string) (*Config, error) {
 	yamlFile, yamlParseErr := os.ReadFile(configFilePath)
 	if yamlParseErr != nil {
-		log.Println("Parseconfig: yamlParse:", yamlParseErr)
+		log.Println("Parseconfig (parseConf package): yamlParse:", yamlParseErr)
 		return nil, yamlParseErr
 	}
 	unmarshErr := yaml.Unmarshal(yamlFile, f)
 	if unmarshErr != nil {
-		log.Println("ParseConfig: unmarshParse:", unmarshErr)
+		log.Println("ParseConfig (parseConf package): unmarshParse:", unmarshErr)
 		return nil, unmarshErr
 	}
 	return f, nil
@@ -61,7 +61,7 @@ func (f *Config) ParseFromTwoDirs(firstPath, SecondPath string) (*Config, error)
 		if errors.Unwrap(homeDirErr).Error() == "no such file or directory" {
 			_, etcDirConfigErr := f.ParseConfig(SecondPath)
 			if etcDirConfigErr != nil {
-				log.Fatalln("main: no config in /etc/ or home dirs, terminate")
+				log.Fatalln("ParseFromTwoDirs (parseConf package): no config in /etc/ or home dirs, terminate")
 				return nil, etcDirConfigErr
 			}
 

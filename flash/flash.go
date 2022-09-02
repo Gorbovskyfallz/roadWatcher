@@ -1,7 +1,6 @@
 package flash
 
 import (
-	"fmt"
 	"github.com/moby/sys/mountinfo"
 	"golang.org/x/sys/unix"
 	"log"
@@ -16,10 +15,15 @@ type FlashMount struct {
 	FlashUse   FlashUse
 }
 
+type FlashUse struct {
+	ServiceWork bool // check service selected from config
+	ProcessWork bool // check process from config
+}
+
 func (f *FlashMount) MountInfo(configMountPoint string) (mounted bool, mountInfoErr error) {
 
 	if mounted, mountInfoErr = mountinfo.Mounted(configMountPoint); mountInfoErr != nil {
-		log.Printf("an error \"%v\" occured while checking the mountpoints", mountInfoErr)
+		log.Printf("MountInfo (flash package): an error \"%v\" occured while checking the mountpoints \n", mountInfoErr)
 		return mounted, mountInfoErr
 	}
 	f.Mounted = mounted
@@ -44,7 +48,6 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 			//log.Println(mountErr)
 			exitStatus = 4
 		default:
-			//log.Println(mountErr)
 			exitStatus = 0
 
 		}
@@ -58,18 +61,13 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 // unmount all flash from mediamountdir
 func (f *FlashMount) UmountPoint(mountPoint string) int {
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
-		log.Printf("an error \"%s\" occured, while unmounting", unmountErr)
+		log.Printf("UmountPoint (flash package): an error \"%s\" occured, while unmounting\n", unmountErr)
 	} else {
-		log.Print("unmounted")
+		log.Print("UmountPoint (flash package): unmounted\n")
 	}
 
 	return 0 /////
 
-}
-
-type FlashUse struct {
-	ServiceWork bool // check service selected from config
-	ProcessWork bool // check process from config
 }
 
 // check potentional disaster procces using the flash
@@ -78,9 +76,6 @@ func (f *FlashUse) CheckPid(processName string) bool {
 	with := "-s"
 
 	out, _ := exec.Command(who, with, processName).Output()
-
-	fmt.Println(len(out))
-	log.Print(string(out))
 	if len(out) != 0 {
 		f.ProcessWork = true
 	} else {
@@ -92,7 +87,7 @@ func (f *FlashUse) CheckPid(processName string) bool {
 
 // checkin service that's processes ffmpeg+gpio things
 func (f *FlashUse) CheckService(serviceName string) bool {
-
+	// возможно, это стоит переписать на системных вызовах без использованися exec
 	// sudo systemctl status docker.service | grep Active
 	grep := exec.Command("grep", "Active")
 	command := exec.Command("systemctl", "status", serviceName)
