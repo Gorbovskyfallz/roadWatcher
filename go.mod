@@ -8,4 +8,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-require github.com/fsnotify/fsnotify v1.5.4 // indirect
+require github.com/fsnotify/fsnotify v1.5.4
+
+require github.com/rcrowley/goagain v0.0.0-20140424170347-f2f192b5d1a9 // indirect

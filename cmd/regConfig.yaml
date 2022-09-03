@@ -1,25 +1,25 @@
 # network testing
 
-# VPN settings
-
+# VPN settings 
 # ip address e.x. vpn server to check the vpn connection by "ping" util in unix, format: string <10.0.0.1>
+
 privateNetwork: 10.0.0.1
 # defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
-pingTimesForVpn: 3
+pingTimesForVpn: 2000
 # reboot vpn service while check VPN if failed, format bool <true/false>
 rebootWhilePrivateFail: true
 # defer the timeout before rebooting VPN service after detecting no connection to vpn server, format int in seconds <10>
-vpnRebootTimeout: 300
+vpnRebootTimeout: 30
 
 
 # global network behaviour settings
 #GlobalNetSettings:
 # ip address with port to check out global internet connection, format string <8.8.8.8>
-globalNetwork: "8.8.8.8"
+globalNetwork: "8.8.8.9"
 # port for global network check, format int32 <8080>
 globalNetworkPort: 80
 # defer the timeout before rebooting device after detecting no connection to global network, format int in seconds <10>
-globalRebootTimeout: 300
+globalRebootTimeout: 30
 # enable rebooting while globalnetworkchec failed, format bool <true/false>
 rebootWhileGlobalFail: true
 

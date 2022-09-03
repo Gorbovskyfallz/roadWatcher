@@ -68,6 +68,7 @@ func (f *Config) ParseFromTwoDirs(firstPath, SecondPath string) (*Config, error)
 
 		}
 	}
+	log.Println("new config loaded")
 	return f, nil
 }
 
