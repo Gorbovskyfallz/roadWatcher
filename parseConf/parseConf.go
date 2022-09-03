@@ -3,6 +3,7 @@ package parseConf
 import (
 	"errors"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"gopkg.in/yaml.v2"
 	"log"
 	"os"
@@ -68,7 +69,7 @@ func (f *Config) ParseFromTwoDirs(firstPath, SecondPath string) (*Config, error)
 
 		}
 	}
-	log.Println("new config loaded")
+	//log.Println("new config loaded")
 	return f, nil
 }
 
@@ -89,4 +90,40 @@ func (f *Config) SwitchTokenInput() (*Config, error) {
 	}
 
 	return f, nil
+}
+
+func (f *Config) configNotifier() {
+	f.ParseFromTwoDirs("regConfig.yaml", "")
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal("NewWatcher failed: ", err)
+	}
+	defer watcher.Close()
+
+	done := make(chan bool)
+	go func() {
+		defer close(done)
+
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				log.Printf("%s %s\n", event.Name, event.Op)
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Println("error:", err)
+			}
+		}
+
+	}()
+
+	err = watcher.Add("./regConfig.yaml")
+	if err != nil {
+		log.Fatal("Add failed:", err)
+	}
+	<-done
 }

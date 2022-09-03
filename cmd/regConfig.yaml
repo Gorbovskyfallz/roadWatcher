@@ -15,7 +15,7 @@ vpnRebootTimeout: 30
 # global network behaviour settings
 #GlobalNetSettings:
 # ip address with port to check out global internet connection, format string <8.8.8.8>
-globalNetwork: "8.8.8.9"
+globalNetwork: "8.8.8.8"
 # port for global network check, format int32 <8080>
 globalNetworkPort: 80
 # defer the timeout before rebooting device after detecting no connection to global network, format int in seconds <10>
