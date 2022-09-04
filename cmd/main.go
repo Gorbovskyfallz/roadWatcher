@@ -2,6 +2,7 @@ package main
 
 import (
 	"kek/logger"
+	"kek/parseConf"
 )
 
 func main() {
@@ -10,4 +11,6 @@ func main() {
 	// и запихнем его в объект конфига
 
 	logger.CreateLogFile("TESTFSNOTIFY.TXT")
+	mainConf := new(parseConf.Config)
+	mainConf.ConfigNotifier("regConfig.yaml", "/etc/regConfig.yaml")
 }

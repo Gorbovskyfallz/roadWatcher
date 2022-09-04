@@ -77,9 +77,10 @@ func (f *Config) SwitchTokenInput() (*Config, error) {
 
 	switch {
 	case f.Security.EnableTokenConfigParse == true && f.Security.TokenBotApi != "":
-		fmt.Println("mutually exclusive conditions: select only one way to introduce botApiToken -  through config" +
+		fmt.Println("mutually exclusive conditions: select only one way to introduce botApiToken -  through config " +
 			"or CLI, deleting info about token in config. Please, enter api token from keyboard:")
 		fmt.Scanln(&f.Security.TokenBotApi)
+		fmt.Println("thanks o lot")
 	case f.Security.EnableTokenConfigParse == true && f.Security.TokenBotApi == "":
 		fmt.Println("you selected parsing bot api from CLI, please enter your token in string format:")
 		fmt.Scanln(&f.Security.TokenBotApi)
@@ -92,13 +93,22 @@ func (f *Config) SwitchTokenInput() (*Config, error) {
 	return f, nil
 }
 
-func (f *Config) configNotifier() {
-	f.ParseFromTwoDirs("regConfig.yaml", "")
+func (f *Config) ConfigNotifier(firstPath, secondPath string) {
+	_, parseErr := f.ParseFromTwoDirs("regConfig.yaml", "")
+	if parseErr != nil {
+		log.Fatal("cannot parse the config:", parseErr)
+	}
+	_, _ = f.SwitchTokenInput()
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		log.Fatal("NewWatcher failed: ", err)
 	}
-	defer watcher.Close()
+	defer func(watcher *fsnotify.Watcher) {
+		errWatcherClose := watcher.Close()
+		if errWatcherClose != nil {
+			log.Println("cannot defer close watcher:", errWatcherClose)
+		}
+	}(watcher)
 
 	done := make(chan bool)
 	go func() {
@@ -106,11 +116,20 @@ func (f *Config) configNotifier() {
 
 		for {
 			select {
-			case event, ok := <-watcher.Events:
+			case _, ok := <-watcher.Events:
 				if !ok {
 					return
 				}
-				log.Printf("%s %s\n", event.Name, event.Op)
+				//log.Printf("%s %s\n", event.Name, event.Op)
+				log.Println("config changed")
+				_, notiParseErr := f.ParseFromTwoDirs(firstPath, secondPath)
+				if notiParseErr != nil {
+					log.Println("cannot parse config after changing it by user:", notiParseErr)
+				}
+				//_, switchTokenErr := f.SwitchTokenInput()
+				//if switchTokenErr != nil {
+				//	log.Println("cannot parse token security mode after changing config by user:", switchTokenErr)
+				//}
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
