@@ -3,7 +3,8 @@
 # VPN settings 
 # ip address e.x. vpn server to check the vpn connection by "ping" util in unix, format: string <10.0.0.1>
 
-privateNetwork: 10.0.0.1
+privateNetwork: 10.0.0.2
+
 # defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
 pingTimesForVpn: 2000
 # reboot vpn service while check VPN if failed, format bool <true/false>

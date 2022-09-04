@@ -116,20 +116,19 @@ func (f *Config) ConfigNotifier(firstPath, secondPath string) {
 
 		for {
 			select {
-			case _, ok := <-watcher.Events:
+			case event, ok := <-watcher.Events:
 				if !ok {
 					return
 				}
 				//log.Printf("%s %s\n", event.Name, event.Op)
-				log.Println("config changed")
-				_, notiParseErr := f.ParseFromTwoDirs(firstPath, secondPath)
-				if notiParseErr != nil {
-					log.Println("cannot parse config after changing it by user:", notiParseErr)
+				if event.Op == fsnotify.Write {
+					log.Println("config changed")
+					_, notiParseErr := f.ParseFromTwoDirs(firstPath, secondPath)
+					if notiParseErr != nil {
+						log.Println("cannot parse config after changing it by user:", notiParseErr)
+					}
 				}
-				//_, switchTokenErr := f.SwitchTokenInput()
-				//if switchTokenErr != nil {
-				//	log.Println("cannot parse token security mode after changing config by user:", switchTokenErr)
-				//}
+
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
