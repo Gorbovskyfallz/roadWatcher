@@ -21,8 +21,8 @@ type FlashUse struct {
 	ProcessWork bool // check process from config
 }
 
-// Checking - mounted or not to mountpath
-//configMountPoint (/media/passed3/flash for e.x.)
+// MountInfo "Checking - mounted or not to mountpath
+//configMountPoint (/media/passed3/flash for e.x.)"
 func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	funcName := "MountInfo"
 	if status, mountErr = flashInfo.Mounted(mountPoint); mountErr != nil {
@@ -33,7 +33,7 @@ func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	return f.Mounted, mountErr
 }
 
-// mounting block device dev to mountpoint with path path
+// MountFlash mounting block device dev to mountpoint with path path
 func MountFlash(dev, path string) (exitStatus int) {
 	funcName := "MountFlash"
 	err := unix.Mount(dev, path, "exfat", unix.MS_MGC_VAL, "")
