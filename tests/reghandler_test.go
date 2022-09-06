@@ -39,15 +39,15 @@ func TestNewRegHand(t *testing.T) {
 
 	testStruct := reghandler.NewRegHand()
 
-	if testStruct.NetworkStatus.VpnNetworkStatus == true {
+	if testStruct.NetworkStatus.VpnStatus == true {
 		t.Log("VPN: must passed if vpn is enabled")
 	} else {
-		t.Errorf("VPN: expected \"true\", but received %t", testStruct.NetworkStatus.VpnNetworkStatus)
+		t.Errorf("VPN: expected \"true\", but received %t", testStruct.NetworkStatus.VpnStatus)
 	}
-	if testStruct.NetworkStatus.ModemNetWorkStatus == true {
-		t.Log("GlobalNetwork: must passed if network is enabled")
+	if testStruct.NetworkStatus.ModemStatus == true {
+		t.Log("NetAddress: must passed if network is enabled")
 	} else {
-		t.Errorf("GlobalNetwork: expected \"true\", but received %t", testStruct.NetworkStatus.ModemNetWorkStatus)
+		t.Errorf("NetAddress: expected \"true\", but received %t", testStruct.NetworkStatus.ModemStatus)
 	}
 	if testStruct.FlashUse.ProcessWork == true {
 		t.Log("ProcessWork: must passed if ffmpeg is executing now")

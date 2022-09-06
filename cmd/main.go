@@ -7,6 +7,6 @@ func main() {
 
 	//logger.CreateLogFile("TESTFSNOTIFY.TXT")
 	//mainConf := new(parseConf.Config)
-	//mainConf.ConfigNotifier("regConfig.yaml", "/etc/regConfig.yaml")
+	//mainConf.ConfigWatcher("regConfig.yaml", "/etc/regConfig.yaml")
 
 }

@@ -8,21 +8,21 @@ import (
 
 func TestConfig_ParseConfig(t *testing.T) {
 	expectedConfig := new(parseConf.Config)
-	expectedConfig.GlobalNetSettings.GlobalNetwork = "8.8.8.8"
-	expectedConfig.GlobalNetSettings.GlobalNetWorkPort = 80
-	expectedConfig.GlobalNetSettings.GlobalRebootTimeout = 300
-	expectedConfig.GlobalNetSettings.RebootIfFail = true
+	expectedConfig.GlobalNet.NetAddress = "8.8.8.8"
+	expectedConfig.GlobalNet.NetPort = 80
+	expectedConfig.GlobalNet.RebootTime = 300
+	expectedConfig.GlobalNet.RebootEnable = true
 
-	expectedConfig.VpnSettings.PrivateNetwork = "10.0.0.1"
-	expectedConfig.VpnSettings.RebootOnPrivateFail = true
-	expectedConfig.VpnSettings.PingTimesForVpn = 3
-	expectedConfig.VpnSettings.VpnRebootTimeout = 300
+	expectedConfig.Vpn.NetAddress = "10.0.0.1"
+	expectedConfig.Vpn.RebootEnable = true
+	expectedConfig.Vpn.PingQty = 3
+	expectedConfig.Vpn.RebootTime = 300
 
-	expectedConfig.Flash.MountPointPath = "/media/passed3"
-	expectedConfig.Flash.PathToDev = "/dev/sda"
+	expectedConfig.Flash.MountPoint = "/media/passed3"
+	expectedConfig.Flash.DevPath = "/dev/sda"
 
-	expectedConfig.Security.EnableTokenConfigParse = true
-	expectedConfig.Security.TokenBotApi = "fff"
+	expectedConfig.Security.CliTokenParse = true
+	expectedConfig.Security.BotToken = "fff"
 
 	expectedConfig.Hardware.LedIndication = true
 
@@ -32,10 +32,10 @@ func TestConfig_ParseConfig(t *testing.T) {
 	if expectedConfig.Flash != receivedConfig.Flash {
 		t.Errorf("flash Section does not match")
 	}
-	if expectedConfig.VpnSettings != receivedConfig.VpnSettings {
+	if expectedConfig.Vpn != receivedConfig.Vpn {
 		t.Errorf("vpn setting section does not match")
 	}
-	if expectedConfig.GlobalNetSettings != receivedConfig.GlobalNetSettings {
+	if expectedConfig.GlobalNet != receivedConfig.GlobalNet {
 		t.Errorf("global network section does not match")
 	}
 	if expectedConfig.Security != receivedConfig.Security {
@@ -52,7 +52,7 @@ func TestConfig_ParseConfig(t *testing.T) {
 
 func TestConfig_ParseFromTwoDirs(t *testing.T) {
 	testConfig := new(parseConf.Config)
-	_, err := testConfig.ParseFromTwoDirs("regConfig.yaml", "/etc/")
+	_, err := testConfig.ParseTwoDirs("regConfig.yaml", "/etc/")
 	if err != nil {
 		t.Errorf("expected nil, but received \"%v\"", err)
 	}
@@ -61,11 +61,11 @@ func TestSwitchTokenInput(t *testing.T) {
 
 	testConf := new(parseConf.Config)
 	// input by cli
-	testConf.Security.EnableTokenConfigParse = true
-	testConf.Security.TokenBotApi = ""
+	testConf.Security.CliTokenParse = true
+	testConf.Security.BotToken = ""
 	testConf.SwitchTokenInput()
-	if testConf.Security.TokenBotApi != "qwerty" {
-		t.Errorf("expected \"qwerty\", but received \"%s\"", testConf.Security.TokenBotApi)
+	if testConf.Security.BotToken != "qwerty" {
+		t.Errorf("expected \"qwerty\", but received \"%s\"", testConf.Security.BotToken)
 	}
 
 }
