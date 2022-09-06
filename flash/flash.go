@@ -33,26 +33,26 @@ func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	return f.Mounted, mountErr
 }
 
-// not consider some errors of mount e.x. accsess perms (ronly...)
+// mounting block device dev to mountpoint with path path
 func MountFlash(dev, path string) (exitStatus int) {
-	nameOfFunc := "MountFlash"
-	mountErr := unix.Mount(dev, path, "exfat", unix.MS_MGC_VAL, "")
-	if mountErr != nil {
+	funcName := "MountFlash"
+	err := unix.Mount(dev, path, "exfat", unix.MS_MGC_VAL, "")
+	if err != nil {
 		switch {
-		case mountErr.Error() == "no such device":
-			log.Printf("%s: device on path %s\n", nameOfFunc, mountErr.Error())
+		case err.Error() == "no such device":
+			log.Printf("%s: device on path %s\n", funcName, err)
 			exitStatus = 1
-		case mountErr.Error() == "no such file or directory":
-			log.Printf("%s: mountpath: %s\n", nameOfFunc, mountErr.Error())
+		case err.Error() == "no such file or directory":
+			log.Printf("%s: mountpath: %s\n", funcName, err)
 			exitStatus = 2
-		case mountErr.Error() == "device or resource busy":
-			log.Printf("%s: work with device: %s\n", nameOfFunc, mountErr.Error())
+		case err.Error() == "device or resource busy":
+			log.Printf("%s: device: %s\n", funcName, err)
 			exitStatus = 3
-		case mountErr.Error() == "invalid argument":
-			log.Printf("%s: arguments: %s\n", nameOfFunc, mountErr.Error())
+		case err.Error() == "invalid argument":
+			log.Printf("%s: arguments: %s\n", funcName, err)
 			exitStatus = 4
 		default:
-			log.Printf("%s: device %s mounted in path %s succsessfuly\n", nameOfFunc, dev, path)
+			log.Printf("%s: %s mounted to %s\n", funcName, dev, path)
 			exitStatus = 0
 
 		}
@@ -90,7 +90,8 @@ func (f *FlashUse) CheckPid(processName string) bool {
 
 // checkin service that's processes ffmpeg+gpio things
 func (f *FlashUse) CheckService(serviceName string) bool {
-	// возможно, это стоит переписать на системных вызовах без использованися exec
+	// возможно, это стоит переписать на системных
+	// вызовах без использованися exec
 	// sudo systemctl status docker.service | grep Active
 	nameOfFunc := "CheckSrvice"
 	grep := exec.Command("grep", "Active")
@@ -105,7 +106,7 @@ func (f *FlashUse) CheckService(serviceName string) bool {
 	grep.Stdin = pipe
 	startErr := command.Start()
 	if startErr != nil {
-		log.Printf("%s: starting %s command: %w", nameOfFunc, grep.String(), startErr)
+		log.Printf("%s: %s command: %w", nameOfFunc, grep, startErr)
 	}
 	res, _ := grep.Output()
 	if strings.Contains(string(res), "active (running)") {
