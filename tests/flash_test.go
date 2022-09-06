@@ -65,7 +65,7 @@ func TestFlashMount_MountInfo(t *testing.T) {
 	//for umounted flash
 	path := "/media/passed3"
 	testStruct := new(flash.Flash)
-	testStruct.MountedInfo(path)
+	testStruct.MountInfo(path)
 	if testStruct.Mounted != true {
 		t.Error("|while flash is mounted| expected true, but received:", testStruct.Mounted)
 	}

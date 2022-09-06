@@ -21,21 +21,23 @@ type FlashUse struct {
 	ProcessWork bool // check process from config
 }
 
-// Checking - mounted or not to mountpath configMountPoint (/media/passed3/flash for e.x.)
-func (f *Flash) MountedInfo(configMountPoint string) (mountedStatus bool, mountErr error) {
-
-	if mountedStatus, mountErr = flashInfo.Mounted(configMountPoint); mountErr != nil {
-		log.Printf("MountedInfo (flash package): an error \"%v\" occured while checking the mountpoints\n", mountErr)
-		return mountedStatus, mountErr
+// Checking - mounted or not to mountpath
+//configMountPoint (/media/passed3/flash for e.x.)
+func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
+	funcName := "MountInfo"
+	if status, mountErr = flashInfo.Mounted(mountPoint); mountErr != nil {
+		log.Printf("%s: error \"%v\" occured\n", mountErr, funcName)
+		return status, mountErr
 	}
-	f.Mounted = mountedStatus
+	f.Mounted = status
 	return f.Mounted, mountErr
 }
 
 // not consider some errors of mount e.x. accsess perms (ronly...)
-func MountFlash(devPath, mountPath string) (exitStatus int) {
+func MountFlash(dev, path string) (exitStatus int) {
 	nameOfFunc := "MountFlash"
-	if mountErr := unix.Mount(devPath, mountPath, "exfat", unix.MS_MGC_VAL, ""); mountErr != nil {
+	mountErr := unix.Mount(dev, path, "exfat", unix.MS_MGC_VAL, "")
+	if mountErr != nil {
 		switch {
 		case mountErr.Error() == "no such device":
 			log.Printf("%s: device on path %s\n", nameOfFunc, mountErr.Error())
@@ -50,7 +52,7 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 			log.Printf("%s: arguments: %s\n", nameOfFunc, mountErr.Error())
 			exitStatus = 4
 		default:
-			log.Printf("%s: device %s mounted in path %s succsessfuly\n", nameOfFunc, devPath, mountPath)
+			log.Printf("%s: device %s mounted in path %s succsessfuly\n", nameOfFunc, dev, path)
 			exitStatus = 0
 
 		}
@@ -63,9 +65,9 @@ func MountFlash(devPath, mountPath string) (exitStatus int) {
 func (f *Flash) UmountPoint(mountPoint string) int {
 	nameOfFunc := "UmountPoint"
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
-		log.Printf("%s: an error \"%s\" occured, while unmounting\n", nameOfFunc, unmountErr)
+		log.Printf("%s:error \"%s\" occured\n", nameOfFunc, unmountErr)
 	} else {
-		log.Printf("%s: all devices on path: %s are unmounted\n", nameOfFunc, mountPoint)
+		log.Printf("%s: %s unmounted\n", nameOfFunc, mountPoint)
 	}
 
 	return 0 /////
@@ -97,13 +99,13 @@ func (f *FlashUse) CheckService(serviceName string) bool {
 	defer func(pipe io.ReadCloser) {
 		closePipeErr := pipe.Close()
 		if closePipeErr != nil {
-			log.Printf("%s: problem with closing pipe occured: %w", nameOfFunc, closePipeErr)
+			log.Printf("%s: %w", nameOfFunc, closePipeErr)
 		}
 	}(pipe)
 	grep.Stdin = pipe
 	startErr := command.Start()
 	if startErr != nil {
-		log.Printf("%s: there was problem with starting %s command: %w", nameOfFunc, grep.String(), startErr)
+		log.Printf("%s: starting %s command: %w", nameOfFunc, grep.String(), startErr)
 	}
 	res, _ := grep.Output()
 	if strings.Contains(string(res), "active (running)") {
