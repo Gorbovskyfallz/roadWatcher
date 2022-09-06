@@ -8,7 +8,7 @@ import (
 type RegHand struct {
 	NetworkStatus network.Network
 	FlashUse      flash.FlashUse
-	FlashMount    flash.FlashMount
+	FlashMount    flash.Flash
 }
 
 func NewRegHand() (completeRegHand RegHand) {

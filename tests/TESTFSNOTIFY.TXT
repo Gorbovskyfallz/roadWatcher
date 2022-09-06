@@ -1,0 +1,134 @@
+2022/09/03 20:24:36 logging started
+2022/09/03 20:24:36 new config loaded
+2022/09/03 20:25:12 regConfig.yaml WRITE
+2022/09/03 20:25:12 new config loaded
+2022/09/03 20:25:12 regConfig.yaml WRITE
+2022/09/03 20:25:12 new config loaded
+2022/09/03 20:25:12 regConfig.yaml CHMOD
+2022/09/03 20:25:12 new config loaded
+2022/09/03 20:26:27 logging started
+2022/09/03 20:26:27 new config loaded
+2022/09/03 20:26:54 regConfig.yaml WRITE
+2022/09/03 20:26:54 new config loaded
+2022/09/03 20:26:54 8.8.8.8
+2022/09/03 20:26:54 regConfig.yaml WRITE
+2022/09/03 20:26:54 new config loaded
+2022/09/03 20:26:54 8.8.8.8
+2022/09/03 20:26:54 regConfig.yaml CHMOD
+2022/09/03 20:26:54 new config loaded
+2022/09/03 20:26:54 8.8.8.8
+2022/09/03 20:26:54 regConfig.yaml CHMOD
+2022/09/03 20:26:54 new config loaded
+2022/09/03 20:26:54 8.8.8.8
+2022/09/03 20:28:34 regConfig.yaml WRITE
+2022/09/03 20:28:34 new config loaded
+2022/09/03 20:28:34 8.8.8.0
+2022/09/03 20:28:34 regConfig.yaml CHMOD
+2022/09/03 20:28:34 new config loaded
+2022/09/03 20:28:34 8.8.8.0
+2022/09/03 20:30:23 regConfig.yaml WRITE
+2022/09/03 20:30:23 new config loaded
+2022/09/03 20:30:23 8.8.8.8
+2022/09/03 20:30:23 regConfig.yaml WRITE
+2022/09/03 20:30:23 new config loaded
+2022/09/03 20:30:23 8.8.8.8
+2022/09/03 20:31:44 regConfig.yaml WRITE
+2022/09/03 20:31:44 new config loaded
+2022/09/03 20:31:44 8.8.8.0
+2022/09/03 20:31:44 regConfig.yaml WRITE
+2022/09/03 20:31:44 new config loaded
+2022/09/03 20:31:44 8.8.8.0
+2022/09/03 20:31:53 regConfig.yaml WRITE
+2022/09/03 20:31:53 new config loaded
+2022/09/03 20:31:53 8.8.8.9
+2022/09/03 20:31:53 regConfig.yaml WRITE
+2022/09/03 20:31:53 new config loaded
+2022/09/03 20:31:53 8.8.8.9
+2022/09/03 20:38:27 logging started
+2022/09/03 20:38:40 regConfig.yaml WRITE
+2022/09/03 20:38:40 8.8.8.9
+2022/09/03 20:38:40 regConfig.yaml WRITE
+2022/09/03 20:38:40 8.8.8.9
+2022/09/03 20:39:45 logging started
+2022/09/03 20:39:54 8.8.8.0
+2022/09/03 20:39:54 8.8.8.0
+2022/09/03 20:41:24 8.8.8.0
+2022/09/03 20:41:24 8.8.8.0
+2022/09/03 20:41:24 8.8.8.0
+2022/09/03 20:41:43 8.8.8.0
+2022/09/03 20:41:43 8.8.8.0
+2022/09/03 20:41:43 8.8.8.0
+2022/09/03 20:42:05 8.8.8.0
+2022/09/03 20:42:05 8.8.8.0
+2022/09/03 20:42:05 8.8.8.0
+2022/09/03 20:42:05 8.8.8.0
+2022/09/03 20:42:30 logging started
+2022/09/04 22:16:35 logging started
+2022/09/04 22:28:58 logging started
+2022/09/04 22:29:49 logging started
+2022/09/04 22:30:28 logging started
+2022/09/04 22:31:40 logging started
+2022/09/04 22:32:43 logging started
+2022/09/04 22:32:54 config changed
+2022/09/04 22:32:54 config changed
+2022/09/04 22:32:54 config changed
+2022/09/04 22:36:10 logging started
+2022/09/04 22:36:22 regConfig.yaml WRITE
+2022/09/04 22:36:22 config changed
+2022/09/04 22:36:22 regConfig.yaml WRITE
+2022/09/04 22:36:22 config changed
+2022/09/04 22:36:22 regConfig.yaml CHMOD
+2022/09/04 22:36:22 config changed
+2022/09/04 22:39:06 logging started
+2022/09/04 22:39:23 regConfig.yaml WRITE
+2022/09/04 22:39:23 config changed
+2022/09/04 22:39:23 regConfig.yaml CHMOD
+2022/09/04 22:39:23 regConfig.yaml CHMOD
+2022/09/04 22:39:42 logging started
+2022/09/04 22:39:57 config changed
+2022/09/04 22:39:57 config changed
+2022/09/04 22:48:37 config changed
+2022/09/04 22:48:37 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:48:51 logging started
+2022/09/04 22:48:51 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:49:09 logging started
+2022/09/04 22:49:09 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:49:11 logging started
+2022/09/04 22:49:11 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:49:26 logging started
+2022/09/04 22:49:35 config changed
+2022/09/04 22:49:35 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:49:43 logging started
+2022/09/04 22:49:43 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:50:29 logging started
+2022/09/04 22:50:29 ParseConfig (parseConf package): unmarshParse: yaml: line 49: could not find expected ':'
+2022/09/04 22:51:25 logging started
+2022/09/04 22:51:38 config changed
+2022/09/04 22:52:35 config changed
+2022/09/04 22:52:46 config changed
+2022/09/04 22:52:59 config changed
+2022/09/04 22:53:26 logging started
+2022/09/04 22:53:38 config changed
+2022/09/04 22:53:38 config changed
+2022/09/04 23:01:48 logging started
+2022/09/04 23:01:48 ParseConfig (parseConf package): unmarshParse: yaml: line 48: could not find expected ':'
+2022/09/04 23:03:12 logging started
+2022/09/04 23:03:26 config changed
+2022/09/04 23:03:45 config changed
+2022/09/04 23:04:14 config changed
+2022/09/04 23:04:14 config changed
+2022/09/04 23:25:38 config changed
+2022/09/04 23:30:13 logging started
+2022/09/04 23:30:23 regConfig.yaml WRITE
+2022/09/04 23:31:08 logging started
+2022/09/04 23:31:24 regConfig.yaml WRITE
+2022/09/04 23:31:24 regConfig.yaml WRITE
+2022/09/04 23:31:24 regConfig.yaml WRITE
+2022/09/04 23:31:24 regConfig.yaml WRITE
+2022/09/04 23:31:24 regConfig.yaml CHMOD
+2022/09/04 23:31:24 regConfig.yaml CHMOD
+2022/09/04 23:31:48 regConfig.yaml WRITE
+2022/09/04 23:31:48 regConfig.yaml WRITE
+2022/09/04 23:31:48 regConfig.yaml WRITE
+2022/09/04 23:31:48 regConfig.yaml WRITE
+2022/09/04 23:31:48 regConfig.yaml CHMOD

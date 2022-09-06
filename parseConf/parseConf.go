@@ -94,7 +94,7 @@ func (f *Config) SwitchTokenInput() (*Config, error) {
 }
 
 func (f *Config) ConfigNotifier(firstPath, secondPath string) {
-	_, parseErr := f.ParseFromTwoDirs("regConfig.yaml", "")
+	_, parseErr := f.ParseFromTwoDirs(firstPath, secondPath)
 	if parseErr != nil {
 		log.Fatal("cannot parse the config:", parseErr)
 	}
@@ -120,9 +120,10 @@ func (f *Config) ConfigNotifier(firstPath, secondPath string) {
 				if !ok {
 					return
 				}
-				//log.Printf("%s %s\n", event.Name, event.Op)
+				log.Printf("%s %s\n", event.Name, event.Op)
 				if event.Op == fsnotify.Write {
-					log.Println("config changed")
+					//log.Println("config changed")
+					log.Printf("%s %s\n", event.Name, event.Op)
 					_, notiParseErr := f.ParseFromTwoDirs(firstPath, secondPath)
 					if notiParseErr != nil {
 						log.Println("cannot parse config after changing it by user:", notiParseErr)
