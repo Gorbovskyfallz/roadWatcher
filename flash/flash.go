@@ -34,13 +34,14 @@ func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
 }
 
 // MountFlash mounting block device dev to mountpoint with path path
-func MountFlash(dev, path string) (exitStatus int) {
+func MountFlash(dev, mountPath string) (exitStatus int) {
 	funcName := "MountFlash"
-	err := unix.Mount(dev, path, "exfat", unix.MS_MGC_VAL, "")
+	var flags uintptr = unix.MS_MGC_VAL
+	err := unix.Mount(dev, mountPath, "exfat", flags, "")
 	if err != nil {
 		switch {
 		case err.Error() == "no such device":
-			log.Printf("%s: device on path %s\n", funcName, err)
+			log.Printf("%s: device on mountPath %s\n", funcName, err)
 			exitStatus = 1
 		case err.Error() == "no such file or directory":
 			log.Printf("%s: mountpath: %s\n", funcName, err)
@@ -52,7 +53,7 @@ func MountFlash(dev, path string) (exitStatus int) {
 			log.Printf("%s: arguments: %s\n", funcName, err)
 			exitStatus = 4
 		default:
-			log.Printf("%s: %s mounted to %s\n", funcName, dev, path)
+			log.Printf("%s: %s mnt to %s\n", funcName, dev, mountPath)
 			exitStatus = 0
 
 		}
