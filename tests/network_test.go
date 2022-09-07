@@ -9,7 +9,7 @@ import (
 func TestNetwork_GeneralNetCheck(t *testing.T) {
 	testStruct := new(network.Network)
 
-	testStruct.ModemNetCheck("google.com", "80")
+	testStruct.NetCheck("google.com", "80")
 	fmt.Println(testStruct.ModemStatus)
 	if testStruct.ModemStatus == true {
 		t.Log("passed")
@@ -17,7 +17,7 @@ func TestNetwork_GeneralNetCheck(t *testing.T) {
 		t.Error("not passed")
 	}
 
-	testStruct.ModemNetCheck("com", "80")
+	testStruct.NetCheck("com", "80")
 	fmt.Println(testStruct.ModemStatus)
 	if testStruct.ModemStatus == false {
 		t.Log("passed")
@@ -31,7 +31,7 @@ func TestNetwork_VpnNetCheck(t *testing.T) {
 
 	testStruct := new(network.Network)
 
-	testStruct.VpnNetCheck("10.0.0.1")
+	testStruct.VpnCheck("10.0.0.1")
 
 	if testStruct.VpnStatus == true {
 		t.Log("passed")

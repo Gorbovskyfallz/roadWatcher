@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type Flash struct {
+type StatFlash struct {
 	Mounted    bool   // from checker
 	MountPoint string // from config
 	DeviceName string // from config
@@ -22,8 +22,8 @@ type FlashUse struct {
 }
 
 // MountInfo "Checking - mounted or not to mountpath
-//configMountPoint (/media/passed3/flash for e.x.)"
-func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
+// configMountPoint (/media/passed3/flash for e.x.)"
+func (f *StatFlash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	name := "MountInfo"
 	if status, mountErr = flashInfo.Mounted(mountPoint); mountErr != nil {
 		log.Printf("%s: error \"%v\" occured\n", mountErr, name)
@@ -33,7 +33,7 @@ func (f *Flash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	return f.Mounted, mountErr
 }
 
-// MountFlash mounting block device dev to mountpoint with path path
+// MountFlash mounting block device dev to mountpoint with path
 func MountFlash(dev, mountPath string) (exitStatus int) {
 	name := "MountFlash"
 	var magicFlag uintptr = unix.MS_MGC_VAL
@@ -62,8 +62,8 @@ func MountFlash(dev, mountPath string) (exitStatus int) {
 	return
 }
 
-// unmount all flash from mediamountdir
-func (f *Flash) UmountPoint(mountPoint string) int {
+// UmountPoint unmount all flash from mediamountdir
+func (f *StatFlash) UmountPoint(mountPoint string) int {
 	name := "UmountPoint"
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
 		log.Printf("%s:error \"%s\" occured\n", name, unmountErr)
@@ -75,7 +75,7 @@ func (f *Flash) UmountPoint(mountPoint string) int {
 
 }
 
-// check potentional disaster procces using the flash
+// CheckPid check potentional disaster procces using the flash
 // переделать на сисколы
 func (f *FlashUse) CheckPid(processName string) bool {
 	util := "pidof"
@@ -89,7 +89,7 @@ func (f *FlashUse) CheckPid(processName string) bool {
 	return f.ProcessWork
 }
 
-// checkin service that's processes ffmpeg+gpio things
+// CheckService checkin service that's processes ffmpeg+gpio things
 func (f *FlashUse) CheckService(serviceName string) bool {
 	// возможно, это стоит переписать на системных
 	// вызовах без использованися exec
@@ -101,13 +101,13 @@ func (f *FlashUse) CheckService(serviceName string) bool {
 	defer func(pipe io.ReadCloser) {
 		closePipeErr := pipe.Close()
 		if closePipeErr != nil {
-			log.Printf("%s: %w", name, closePipeErr)
+			log.Printf("%s: %v", name, closePipeErr)
 		}
 	}(pipe)
 	grep.Stdin = pipe
 	startErr := command.Start()
 	if startErr != nil {
-		log.Printf("%s: %s command: %w", name, grep, startErr)
+		log.Printf("%s: %s command: %v", name, grep, startErr)
 	}
 	res, _ := grep.Output()
 	if strings.Contains(string(res), "active (running)") {

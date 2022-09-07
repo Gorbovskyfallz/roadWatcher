@@ -1,46 +1,58 @@
-# network testing
 
-# VPN settings 
-# ip address e.x. vpn server to check the vpn connection by "ping" util in unix, format: string <10.0.0.1>
+# VPN settings
+
+# ip address in vpn network to ping
+# format: string <10.0.0.1>
 
 privateNetwork: 10.0.0.1
 
-# defer how many iterations of ping must do globalcheckout func (similar to ping -c) format int <3>
-pingTimesForVpn: 2000
-# reboot vpn service while check VPN if failed, format bool <true/false>
+# ping -c arg
+# format: int <3>
+pingTimesForVpn: 3
+# enable vpn service reboot timer "vpnRebootTimeout" if "privateNetwork" is down
+# format: bool <true/false>
 rebootWhilePrivateFail: true
-# defer the timeout before rebooting VPN service after detecting no connection to vpn server, format int in seconds <10>
+# time before reboot if "privateNetwork" is unreachable
+# format: int in seconds <10>
 vpnRebootTimeout: 30
 
 
-# global network behaviour settings
-#GlobalNetSettings:
-# ip address with port to check out global internet connection, format string <8.8.8.8>
+# Global network behaviour settings
+
+# ip address with port to check out global internet connection
+# format: string <8.8.8.8>
 globalNetwork: "8.8.8.8"
-# port for global network check, format int32 <8080>
+# port for testing "globalNetwork"
+# format: int32 <8080>
 globalNetworkPort: 80
-# defer the timeout before rebooting device after detecting no connection to global network, format int in seconds <10>
+# time before hard reboot if "globalNetwork" is unreachable
+# format: int in seconds <10>
 globalRebootTimeout: 30
-# enable rebooting while globalnetworkchec failed, format bool <true/false>
+# enable hard reboot timer "globalRebootTimeout" if "globalNetwork" is down
+# format: bool <true/false>
 rebootWhileGlobalFail: true
 
 
-# security
+# Security
 
-# enable token input from config, if no, program will be ask to enter token from keyboard, format bool <true/false>
-enableTokenConfigParse: true
-# bot access api token in format string  <5430641389:AAEycEU_9EleY>
+# bot access api token
+# format: string <5430641389:AAEycEU_9EleY>
 tokenBotApi: jkhgjhg
 
-# flash config
+# Flash config
 
-# path to dev flash, that can be used to record videos, format string </dev/sda>
-# note: for more stabiity u can use usb flash card only with one partition
+# path to dev flash, that can be used to record videos
+# format: string </dev/sda>
+
 pathToDevice: /dev/sda
-# path to mountpoint in format </media/passed3>
+# path to mountpoint
+# format: </media/passed3>
 pathToMountPoint: /media/passed3
-# hardware
-# enable led indication in format bool <true/false>
+
+# Hardware
+
+# enable led indication
+# format: bool <true/false>
 ledIndication: true
 
 

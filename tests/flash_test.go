@@ -53,7 +53,7 @@ func TestBadDevNotMounted(t *testing.T) {
 }
 
 //func TestFlashMount_UmountPoint(t *testing.T) {
-//	testStruct := new(Flash)
+//	testStruct := new(StatFlash)
 //	mountPointPaths := "/media/"
 //	testStruct.UmountPoint(mountPointPaths)
 //	if testStruct.UnmountStatus != 0 {
@@ -64,7 +64,7 @@ func TestBadDevNotMounted(t *testing.T) {
 func TestFlashMount_MountInfo(t *testing.T) {
 	//for umounted flash
 	path := "/media/passed3"
-	testStruct := new(flash.Flash)
+	testStruct := new(flash.StatFlash)
 	testStruct.MountInfo(path)
 	if testStruct.Mounted != true {
 		t.Error("|while flash is mounted| expected true, but received:", testStruct.Mounted)

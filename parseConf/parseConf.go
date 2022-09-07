@@ -29,8 +29,7 @@ type GlobalNet struct {
 	RebootEnable bool   `yaml:"rebootWhileGlobalFail"`
 }
 type Security struct {
-	CliTokenParse bool   `yaml:"enableTokenConfigParse"`
-	BotToken      string `yaml:"tokenBotApi"`
+	BotToken string `yaml:"tokenBotApi"`
 }
 type Flash struct {
 	DevPath    string `yaml:"pathToDevice"`

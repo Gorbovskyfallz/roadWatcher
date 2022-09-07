@@ -5,17 +5,18 @@ import (
 	"kek/network"
 )
 
-type RegHand struct {
-	NetworkStatus network.Network
-	FlashUse      flash.FlashUse
-	FlashMount    flash.Flash
+type SysInfo struct {
+	Network    network.Network
+	FlashUse   flash.FlashUse
+	FlashMount flash.StatFlash
 }
 
-func NewRegHand() (completeRegHand RegHand) {
-	completeRegHand.NetworkStatus.ModemNetCheck("google.com", "80")
-	completeRegHand.NetworkStatus.VpnNetCheck("10.0.0.1")
-	completeRegHand.FlashUse.CheckPid("ffmpeg")
-	completeRegHand.FlashUse.CheckService("rtsp-simple-service.service")
+func NewRegHand(netHost, netPort, vpnHost, proc, service string) SysInfo {
+	currentInfo := new(SysInfo)
+	currentInfo.Network.NetCheck(netHost, netPort)
+	currentInfo.Network.VpnCheck(vpnHost)
+	currentInfo.FlashUse.CheckPid(proc)
+	currentInfo.FlashUse.CheckService(service)
 
-	return completeRegHand
+	return *currentInfo
 }

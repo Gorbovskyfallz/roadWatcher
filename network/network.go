@@ -12,13 +12,13 @@ type Network struct {
 	VpnStatus   bool
 }
 
-func (n *Network) ModemNetCheck(host string, port string) bool {
-	funcName := "ModemNetCheck"
+func (n *Network) NetCheck(host string, port string) bool {
+	funcName := "NetCheck"
 	timeout := 5 * time.Second
-	_, globalNetErr := net.DialTimeout("tcp", host+":"+port, timeout)
+	_, netErr := net.DialTimeout("tcp", host+":"+port, timeout)
 
-	if globalNetErr != nil {
-		log.Printf("%s: %s:%s: %v\n", funcName, host, port, globalNetErr)
+	if netErr != nil {
+		log.Printf("%s: %s:%s: %v\n", funcName, host, port, netErr)
 		n.ModemStatus = false
 	} else {
 		n.ModemStatus = true
@@ -28,8 +28,8 @@ func (n *Network) ModemNetCheck(host string, port string) bool {
 
 }
 
-func (n *Network) VpnNetCheck(host string) bool {
-	funcName := "VPNNetCheck"
+func (n *Network) VpnCheck(host string) bool {
+	funcName := "VpnCheck"
 	util := "ping"
 	args := "-c 3"
 	connCheck := exec.Command(util, args, host).Run()

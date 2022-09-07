@@ -3,7 +3,7 @@ package gpio
 import gpio "github.com/stianeikeland/go-rpio/v4"
 
 func testgpio() {
-	err := gpio.Open()
+	_ = gpio.Open()
 	pin := gpio.Pin(10)
 
 	pin.Output() // Output mode
@@ -11,8 +11,8 @@ func testgpio() {
 	pin.Low()    // Set pin Low
 	pin.Toggle() // Toggle pin (Low -> High -> Low)
 
-	pin.Input()       // Input mode
-	res := pin.Read() // Read state from pin (High / Low)
+	pin.Input()    // Input mode
+	_ = pin.Read() // Read state from pin (High / Low)
 
 	pin.Mode(gpio.Output) // Alternative syntax
 	pin.Write(gpio.High)  // Alternative syntax
