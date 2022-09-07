@@ -2,9 +2,11 @@ package parseConf
 
 import (
 	"errors"
+	"github.com/fsnotify/fsnotify"
 	"gopkg.in/yaml.v2"
 	"log"
 	"os"
+	"sync"
 )
 
 type Config struct {
@@ -67,8 +69,60 @@ func (f *Config) ParseTwoDirs(firstPath, SecondPath string) (*Config, error) {
 
 		}
 	}
-	log.Printf("config loaded\n")
+	//log.Printf("config loaded\n")
 	return f, nil
 }
 
 //тут должна быть функция нотифаера!!!
+
+func (f *Config) ConfWatcher(mainPath, secPath string, wg sync.WaitGroup) (*Config, error) {
+	name := "ConfWatcher"
+	_, parseErr := f.ParseTwoDirs(mainPath, secPath)
+	if parseErr != nil {
+		log.Fatalf("%s: %v\n", name, parseErr)
+	}
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+
+	//wg := sync.WaitGroup{}
+	//wg.Add(1)
+	// Start listening for events.
+	go func() {
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				if event.Op == fsnotify.Write {
+
+					_, parseErr := f.ParseTwoDirs(mainPath, secPath)
+					if parseErr != nil {
+						log.Fatalf("%s: %v\n", name, parseErr)
+					}
+					log.Printf("%s: config updated\n", name)
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Printf("%s: %v\n", name, err)
+			}
+
+		}
+		wg.Done()
+	}()
+
+	// Add a path.
+	err = watcher.Add(mainPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Block main goroutine forever.
+	//<-make(chan struct{})
+	return f, nil
+}
