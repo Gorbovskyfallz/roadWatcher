@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"kek/logger"
 	"kek/parseConf"
+	"log"
 	"sync"
 )
 
@@ -16,8 +19,59 @@ func main() {
 	homePath := "regConfig.yaml"
 	etcPath := "/etc/regConfig.yaml"
 	wg := sync.WaitGroup{}
-	wg.Add(1)
-	mainConf.ConfWatcher(homePath, etcPath, wg)
+	wg.Add(2)
+
+	_, parseErr := mainConf.ParseTwoDirs(homePath, etcPath)
+	if parseErr != nil {
+		log.Fatalf("%s: %v\n", parseErr)
+	}
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+	// Start listening for events.
+	err = watcher.Add(homePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	go func() {
+		defer wg.Done()
+		fmt.Println("2 loop go ")
+		for {
+
+		}
+	}()
+
+	go func() {
+		fmt.Println("enter the goroutine loop 1")
+		defer wg.Done()
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				if event.Op == fsnotify.Write {
+
+					_, parseErr := mainConf.ParseTwoDirs(homePath, etcPath)
+					if parseErr != nil {
+						log.Fatalf("%s: %v\n", parseErr)
+					}
+					log.Printf("%s: config updated\n")
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Printf("%s: %v\n", err)
+			}
+
+		}
+
+	}()
+
 	wg.Wait()
 
 }

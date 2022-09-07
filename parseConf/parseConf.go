@@ -6,7 +6,6 @@ import (
 	"gopkg.in/yaml.v2"
 	"log"
 	"os"
-	"sync"
 )
 
 type Config struct {
@@ -75,7 +74,7 @@ func (f *Config) ParseTwoDirs(firstPath, SecondPath string) (*Config, error) {
 
 //тут должна быть функция нотифаера!!!
 
-func (f *Config) ConfWatcher(mainPath, secPath string, wg sync.WaitGroup) (*Config, error) {
+func (f *Config) ConfWatcher(mainPath, secPath string) {
 	name := "ConfWatcher"
 	_, parseErr := f.ParseTwoDirs(mainPath, secPath)
 	if parseErr != nil {
@@ -86,11 +85,13 @@ func (f *Config) ConfWatcher(mainPath, secPath string, wg sync.WaitGroup) (*Conf
 		log.Fatal(err)
 	}
 	defer watcher.Close()
-
-	//wg := sync.WaitGroup{}
-	//wg.Add(1)
 	// Start listening for events.
+	err = watcher.Add(mainPath)
+	if err != nil {
+		log.Fatal(err)
+	}
 	go func() {
+
 		for {
 			select {
 			case event, ok := <-watcher.Events:
@@ -113,16 +114,12 @@ func (f *Config) ConfWatcher(mainPath, secPath string, wg sync.WaitGroup) (*Conf
 			}
 
 		}
-		wg.Done()
+
 	}()
 
 	// Add a path.
-	err = watcher.Add(mainPath)
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// Block main goroutine forever.
 	//<-make(chan struct{})
-	return f, nil
+
 }
