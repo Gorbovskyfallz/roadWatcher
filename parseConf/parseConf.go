@@ -123,3 +123,30 @@ func (f *Config) ConfWatcher(mainPath, secPath string) {
 	//<-make(chan struct{})
 
 }
+
+func (f *Config) Parse(watcher fsnotify.Watcher, mainPath, secPath string) {
+	name := "Parse"
+	for {
+		select {
+		case event, ok := <-watcher.Events:
+			if !ok {
+				return
+			}
+			if event.Op == fsnotify.Write {
+
+				_, parseErr := f.ParseTwoDirs(mainPath, secPath)
+				if parseErr != nil {
+					log.Fatalf("%s: %v\n", name, parseErr)
+				}
+				log.Printf("%s: config updated\n", name)
+			}
+		case err, ok := <-watcher.Errors:
+			if !ok {
+				return
+			}
+			log.Printf("%s: %v\n", name, err)
+		}
+
+	}
+
+}

@@ -4,7 +4,7 @@
 # ip address in vpn network to ping
 # format: string <10.0.0.1>
 
-privateNetwork: 10.0.0.2
+privateNetwork: 10.0.0.1
 
 # ping -c arg
 # format: int <3>

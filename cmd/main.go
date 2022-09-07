@@ -36,40 +36,18 @@ func main() {
 		log.Fatal(err)
 	}
 
+	//go func() {
+	//	defer wg.Done()
+	//	fmt.Println("2 loop go ")
+	//	for {
+	//
+	//	}
+	//}()
+
 	go func() {
 		defer wg.Done()
-		fmt.Println("2 loop go ")
-		for {
-
-		}
-	}()
-
-	go func() {
-		fmt.Println("enter the goroutine loop 1")
-		defer wg.Done()
-		for {
-			select {
-			case event, ok := <-watcher.Events:
-				if !ok {
-					return
-				}
-				if event.Op == fsnotify.Write {
-
-					_, parseErr := mainConf.ParseTwoDirs(homePath, etcPath)
-					if parseErr != nil {
-						log.Fatalf("%s: %v\n", parseErr)
-					}
-					log.Printf("%s: config updated\n")
-				}
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
-				log.Printf("%s: %v\n", err)
-			}
-
-		}
-
+		fmt.Println("kekekek")
+		mainConf.Parse(*watcher, homePath, etcPath)
 	}()
 
 	wg.Wait()
