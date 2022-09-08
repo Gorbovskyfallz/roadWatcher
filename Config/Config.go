@@ -41,14 +41,19 @@ type Hardware struct {
 	LedIndication bool `yaml:"ledIndication"`
 }
 
-func ParsePathfromFlag() string {
-	argFlag := "conf"
-	standartPath := "regConfig.yaml"
-	usage := "define path to config"
-	confPath := flag.String(argFlag, standartPath, usage)
+func TakeConfigName() (string, string) {
+	confFlag := "conf"
+	confStandartName := "regConfig.yaml"
+	confUsage := "define path&name to config"
+	confName := flag.String(confFlag, confStandartName, confUsage)
+
+	logArg := "logfile"
+	logStandartName := "REGLOG.TXT"
+	logUsage := "define path&name to logfile"
+	logName := flag.String(logArg, logStandartName, logUsage)
+
 	flag.Parse()
-	log.Printf("using log: %s\n", *confPath)
-	return *confPath
+	return *confName, *logName
 }
 
 func (f *Config) ParseFromYaml(configFilePath string) (*Config, error) {

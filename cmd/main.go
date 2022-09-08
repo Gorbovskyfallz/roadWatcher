@@ -7,9 +7,8 @@ import (
 )
 
 func main() {
-	// сделать флаг для пути логов
-	logger.CreateLogFile("TESTFSNOTIFY.TXT")
-	configPath := Config.ParsePathfromFlag()
+	configPath, logName := Config.TakeConfigName()
+	logger.CreateLogFile(logName)
 	mainConf := new(Config.Config)
 	mainConf.ParseFromYaml(configPath)
 	wg := sync.WaitGroup{}
