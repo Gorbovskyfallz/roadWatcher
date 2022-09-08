@@ -1,7 +1,7 @@
-package parseConf
+package Config
 
 import (
-	"errors"
+	"flag"
 	"github.com/fsnotify/fsnotify"
 	"gopkg.in/yaml.v2"
 	"log"
@@ -41,8 +41,18 @@ type Hardware struct {
 	LedIndication bool `yaml:"ledIndication"`
 }
 
-func (f *Config) ParseConfig(configFilePath string) (*Config, error) {
-	funcName := "ParseConfig"
+func ParsePathfromFlag() string {
+	argFlag := "conf"
+	standartPath := "regConfig.yaml"
+	usage := "define path to config"
+	confPath := flag.String(argFlag, standartPath, usage)
+	flag.Parse()
+	log.Printf("using log: %s\n", *confPath)
+	return *confPath
+}
+
+func (f *Config) ParseFromYaml(configFilePath string) (*Config, error) {
+	funcName := "ParseFromYaml"
 	yamlFile, yamlParseErr := os.ReadFile(configFilePath)
 	if yamlParseErr != nil {
 		log.Printf("%s: %v\n", funcName, yamlParseErr)
@@ -56,44 +66,24 @@ func (f *Config) ParseConfig(configFilePath string) (*Config, error) {
 	return f, nil
 }
 
-func (f *Config) ParseTwoDirs(firstPath, SecondPath string) (*Config, error) {
-	_, homeDirErr := f.ParseConfig(firstPath)
-	if homeDirErr != nil {
-		if errors.Unwrap(homeDirErr).Error() == "no such file or directory" {
-			_, etcDirConfigErr := f.ParseConfig(SecondPath)
-			if etcDirConfigErr != nil {
-				log.Fatalf("ParseTwoDirs: %v\n", etcDirConfigErr)
-				return nil, etcDirConfigErr
-			}
-
-		}
-	}
-	//log.Printf("config loaded\n")
-	return f, nil
-}
-
-func (f *Config) ConfWatcher(mainPath, secPath string) fsnotify.Watcher {
-	name := "ConfWatcher"
-	_, parseErr := f.ParseTwoDirs(mainPath, secPath)
-	if parseErr != nil {
-		log.Fatalf("%s: %v\n", name, parseErr)
-	}
+func (f *Config) AddNotifyWatcher(mainPath string) *fsnotify.Watcher {
+	name := "AddNotifyWatcher"
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("%s: create watcher: %v\n", name, err)
 	}
 	//defer watcher.Close()
 	// Start listening for events.
 	err = watcher.Add(mainPath)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("%s: add watcher: %v\n", name, err)
 	}
-	return *watcher
+	return watcher
 
 }
 
-func (f *Config) Parse(watcher fsnotify.Watcher, mainPath, secPath string) {
-	name := "Parse"
+func (f *Config) CheckUpdate(watcher *fsnotify.Watcher, mainPath string) {
+	name := "CheckUpdate"
 	for {
 		select {
 		case event, ok := <-watcher.Events:
@@ -102,7 +92,7 @@ func (f *Config) Parse(watcher fsnotify.Watcher, mainPath, secPath string) {
 			}
 			if event.Op == fsnotify.Write {
 
-				_, parseErr := f.ParseTwoDirs(mainPath, secPath)
+				_, parseErr := f.ParseFromYaml(mainPath)
 				if parseErr != nil {
 					log.Fatalf("%s: %v\n", name, parseErr)
 				}
@@ -110,7 +100,7 @@ func (f *Config) Parse(watcher fsnotify.Watcher, mainPath, secPath string) {
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {
-				return
+
 			}
 			log.Printf("%s: %v\n", name, err)
 		}

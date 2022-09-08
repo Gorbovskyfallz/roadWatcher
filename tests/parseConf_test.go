@@ -2,12 +2,12 @@ package tests
 
 import (
 	"fmt"
-	"kek/parseConf"
+	"kek/Config"
 	"testing"
 )
 
 func TestConfig_ParseConfig(t *testing.T) {
-	expectedConfig := new(parseConf.Config)
+	expectedConfig := new(Config.Config)
 	expectedConfig.GlobalNet.NetAddress = "8.8.8.8"
 	expectedConfig.GlobalNet.NetPort = 80
 	expectedConfig.GlobalNet.RebootTime = 300
@@ -26,8 +26,8 @@ func TestConfig_ParseConfig(t *testing.T) {
 
 	expectedConfig.Hardware.LedIndication = true
 
-	receivedConfig := new(parseConf.Config)
-	receivedConfig.ParseConfig("/home/passed3/GolandProjects/rpi-registartor/main/regConfig.yaml")
+	receivedConfig := new(Config.Config)
+	receivedConfig.ParseFromYaml("/home/passed3/GolandProjects/rpi-registartor/main/regConfig.yaml")
 
 	if expectedConfig.Flash != receivedConfig.Flash {
 		t.Errorf("flash Section does not match")
@@ -51,7 +51,7 @@ func TestConfig_ParseConfig(t *testing.T) {
 }
 
 func TestConfig_ParseFromTwoDirs(t *testing.T) {
-	testConfig := new(parseConf.Config)
+	testConfig := new(Config.Config)
 	_, err := testConfig.ParseTwoDirs("regConfig.yaml", "/etc/")
 	if err != nil {
 		t.Errorf("expected nil, but received \"%v\"", err)
@@ -59,7 +59,7 @@ func TestConfig_ParseFromTwoDirs(t *testing.T) {
 }
 func TestSwitchTokenInput(t *testing.T) {
 
-	testConf := new(parseConf.Config)
+	testConf := new(Config.Config)
 	// input by cli
 	testConf.Security.CliTokenParse = true
 	testConf.Security.BotToken = ""

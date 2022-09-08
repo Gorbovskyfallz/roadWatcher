@@ -1,28 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"kek/Config"
 	"kek/logger"
-	"kek/parseConf"
 	"sync"
 )
 
 func main() {
-
+	// сделать флаг для пути логов
 	logger.CreateLogFile("TESTFSNOTIFY.TXT")
-	mainConf := new(parseConf.Config)
-	homePath := "regConfig.yaml"
-	etcPath := "/etc/regConfig.yaml"
+	configPath := Config.ParsePathfromFlag()
+	mainConf := new(Config.Config)
+	mainConf.ParseFromYaml(configPath)
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
-	watcher := mainConf.ConfWatcher(homePath, etcPath)
+	watcher := mainConf.AddNotifyWatcher(configPath)
 	defer watcher.Close()
 
 	go func() {
 		defer wg.Done()
-		fmt.Println("kekekek")
-		mainConf.Parse(watcher, homePath, etcPath)
+		mainConf.CheckUpdate(watcher, configPath)
 	}()
 
 	wg.Wait()
