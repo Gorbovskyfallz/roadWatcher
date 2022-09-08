@@ -72,9 +72,7 @@ func (f *Config) ParseTwoDirs(firstPath, SecondPath string) (*Config, error) {
 	return f, nil
 }
 
-//тут должна быть функция нотифаера!!!
-
-func (f *Config) ConfWatcher(mainPath, secPath string) {
+func (f *Config) ConfWatcher(mainPath, secPath string) fsnotify.Watcher {
 	name := "ConfWatcher"
 	_, parseErr := f.ParseTwoDirs(mainPath, secPath)
 	if parseErr != nil {
@@ -84,43 +82,13 @@ func (f *Config) ConfWatcher(mainPath, secPath string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Close()
+	//defer watcher.Close()
 	// Start listening for events.
 	err = watcher.Add(mainPath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	go func() {
-
-		for {
-			select {
-			case event, ok := <-watcher.Events:
-				if !ok {
-					return
-				}
-				if event.Op == fsnotify.Write {
-
-					_, parseErr := f.ParseTwoDirs(mainPath, secPath)
-					if parseErr != nil {
-						log.Fatalf("%s: %v\n", name, parseErr)
-					}
-					log.Printf("%s: config updated\n", name)
-				}
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
-				log.Printf("%s: %v\n", name, err)
-			}
-
-		}
-
-	}()
-
-	// Add a path.
-
-	// Block main goroutine forever.
-	//<-make(chan struct{})
+	return *watcher
 
 }
 
