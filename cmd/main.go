@@ -1,9 +1,11 @@
 package main
 
-import "kek/core"
+import "kek/gpio"
 
 func main() {
 
-	core.Core()
+	//core.Core()
+
+	gpio.Testgpio()
 
 }

@@ -1,19 +1,36 @@
 package gpio
 
-import gpio "github.com/stianeikeland/go-rpio/v4"
+import (
+	gpio "github.com/stianeikeland/go-rpio/v4"
+	"time"
+)
 
-func testgpio() {
+// 3 - пин для выключения малины
+// 17 - пин кнопки запуска и отключения сервисов монтирования и потока
+// 4 - пин индикатора потока (светодиод)
+// 27 - пин для кнопки монтирования флешки
+// 22 - пин для индикации монтирования флешки
+
+func Testgpio() {
+
 	_ = gpio.Open()
-	pin := gpio.Pin(10)
+
+	defer gpio.Close()
+
+	pin := gpio.Pin(4)
 
 	pin.Output() // Output mode
-	pin.High()   // Set pin High
-	pin.Low()    // Set pin Low
-	pin.Toggle() // Toggle pin (Low -> High -> Low)
+	for {
+		gpio.TogglePin(pin)
+		time.Sleep(1 * time.Second)
 
-	pin.Input()    // Input mode
-	_ = pin.Read() // Read state from pin (High / Low)
+	}
 
-	pin.Mode(gpio.Output) // Alternative syntax
-	pin.Write(gpio.High)  // Alternative syntax
+	//pin.Toggle() // Toggle pin (Low -> High -> Low)
+
+	//pin.Input()    // Input mode
+	//_ = pin.Read() // Read state from pin (High / Low)
+	//
+	//pin.Mode(gpio.Output) // Alternative syntax
+	//pin.Write(gpio.High)  // Alternative syntax
 }
