@@ -66,6 +66,26 @@ func (i *IoPins) SetNetworkLed() (setPinErr error) {
 	return nil
 }
 
+// SetSysLed sets mode for system indication led
+func (i *IoPins) SetSysLed() (setPinErr error) {
+	i.SystemLed = gpio.Pin(22)
+	i.SystemLed.Output()
+	i.SystemLed.PullDown() // check!!
+	return nil
+}
+
+//PinInit - initialize all pins for pin struct
+func (i *IoPins) PinInit() (setPinsErr error) {
+	EnableGpio()
+	i.SetShutdownButton()
+	i.SetMountAndStartButton()
+	i.SetMountAndStartButton()
+	i.SetNetworkLed()
+	i.SetSysLed()
+
+	return nil
+}
+
 /*tet*/
 func Testgpio() {
 
