@@ -1,8 +1,10 @@
 package gpio
 
 import (
+	gpio "github.com/stianeikeland/go-rpio/v4"
 	"kek/flash"
 	"kek/network"
+	"time"
 )
 
 //индикация отсутствия интернета
@@ -15,14 +17,40 @@ import (
 //шление относительно уровней абстракции
 
 type LedIndicator interface {
-	NetworkIndication(Network network.Network)
-	SystemIndication(StatFlash flash.StatFlash)
+	NetworkIndicate(Network network.Network)
+	SystemIndicate(StatFlash flash.StatFlash)
 }
 
-func (i *IoPins) NetworkIndication(Network network.Network) {
+func (i *IoPins) VpnErrorToggle() {
+	gpio.TogglePin(i.NetworkLed)
+	time.Sleep(1 * time.Second)
+}
+
+func (i *IoPins) ModemErrorToggle() {
+	gpio.TogglePin(i.NetworkLed)
+	time.Sleep(300 * time.Millisecond)
+}
+
+func (i *IoPins) NetworkVpnErrorToggle() {
+	gpio.TogglePin(i.NetworkLed)
+	time.Sleep(5 * time.Second)
+}
+func (i *IoPins) AllFineConnectToggle() {
+	i.NetworkLed.High()
 
 }
 
-func (i *IoPins) SystemIndication(StatFlash flash.StatFlash) {
+func (i *IoPins) NetworkIndicate(Network network.Network) {
+	if !Network.ModemStatus {
+		i.ModemErrorToggle()
+	} else if !Network.VpnStatus {
+		i.VpnErrorToggle()
+	} else {
+		i.AllFineConnectToggle()
+	}
+
+}
+
+func (i *IoPins) SystemIndicate(StatFlash flash.StatFlash) {
 
 }
