@@ -51,6 +51,21 @@ func (i *IoPins) NetworkIndicate(Network network.Network) {
 
 }
 
+func (i *IoPins) FlashMountErrorIndicate() {
+	gpio.TogglePin(i.SystemLed)
+	time.Sleep(200 * time.Millisecond)
+}
+
+func (i *IoPins) UnmountErrorIndicate() {
+	gpio.TogglePin(i.SystemLed)
+	time.Sleep(1 * time.Second)
+
+}
+
+func (i *IoPins) FlashMountedIndicate() {
+	i.SystemLed.High()
+}
+
 func (i *IoPins) SystemIndicate(StatFlash flash.StatFlash) {
 
 }
