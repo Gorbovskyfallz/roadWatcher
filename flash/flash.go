@@ -10,10 +10,16 @@ import (
 )
 
 type StatFlash struct {
-	Mounted    bool   // from checker
-	MountPoint string // from config
-	DeviceName string // from config
-	FlashUse   FlashUse
+	Mounted     bool   // from checker
+	MountPoint  string // from config
+	DeviceName  string // from config
+	FlashUse    FlashUse
+	FlashErrors FlashErrors
+}
+
+type FlashErrors struct {
+	MountExitStatus   int
+	UnmountExitStatus int
 }
 
 type FlashUse struct {
@@ -23,18 +29,18 @@ type FlashUse struct {
 
 // MountInfo "Checking - mounted or not to mountpath
 // configMountPoint (/media/passed3/flash for e.x.)"
-func (f *StatFlash) MountInfo(mountPoint string) (status bool, mountErr error) {
+func (s *StatFlash) MountInfo(mountPoint string) (status bool, mountErr error) {
 	name := "MountInfo"
 	if status, mountErr = flashInfo.Mounted(mountPoint); mountErr != nil {
 		log.Printf("%s: error \"%v\" occured\n", mountErr, name)
 		return status, mountErr
 	}
-	f.Mounted = status
-	return f.Mounted, mountErr
+	s.Mounted = status
+	return s.Mounted, mountErr
 }
 
 // MountFlash mounting block device dev to mountpoint with path
-func MountFlash(dev, mountPath string) (exitStatus int) {
+func (fe *FlashErrors) MountFlash(dev, mountPath string) {
 	name := "MountFlash"
 	var magicFlag uintptr = unix.MS_MGC_VAL
 	err := unix.Mount(dev, mountPath, "exfat", magicFlag, "")
@@ -42,19 +48,19 @@ func MountFlash(dev, mountPath string) (exitStatus int) {
 		switch {
 		case err.Error() == "no such device":
 			log.Printf("%s: device on mountPath %s\n", name, err)
-			exitStatus = 1
+			fe.MountExitStatus = 1
 		case err.Error() == "no such file or directory":
 			log.Printf("%s: mountpath: %s\n", name, err)
-			exitStatus = 2
+			fe.MountExitStatus = 2
 		case err.Error() == "device or resource busy":
 			log.Printf("%s: device: %s\n", name, err)
-			exitStatus = 3
+			fe.MountExitStatus = 3
 		case err.Error() == "invalid argument":
 			log.Printf("%s: arguments: %s\n", name, err)
-			exitStatus = 4
+			fe.MountExitStatus = 4
 		default:
 			log.Printf("%s: %s mnt to %s\n", name, dev, mountPath)
-			exitStatus = 0
+			fe.MountExitStatus = 0
 
 		}
 
@@ -63,15 +69,17 @@ func MountFlash(dev, mountPath string) (exitStatus int) {
 }
 
 // UmountPoint unmount all flash from mediamountdir
-func (f *StatFlash) UmountPoint(mountPoint string) int {
+func (fe *FlashErrors) UmountPoint(mountPoint string) int {
 	name := "UmountPoint"
 	if unmountErr := unix.Unmount(mountPoint, 0); unmountErr != nil {
 		log.Printf("%s:error \"%s\" occured\n", name, unmountErr)
+		fe.UnmountExitStatus = 1
 	} else {
 		log.Printf("%s: %s unmounted\n", name, mountPoint)
+		fe.UnmountExitStatus = 0
 	}
 
-	return 0 /////
+	return 0
 
 }
 

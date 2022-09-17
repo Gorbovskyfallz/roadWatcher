@@ -59,13 +59,18 @@ func (i *IoPins) FlashMountErrorIndicate() {
 func (i *IoPins) UnmountErrorIndicate() {
 	gpio.TogglePin(i.SystemLed)
 	time.Sleep(1 * time.Second)
-
 }
 
 func (i *IoPins) FlashMountedIndicate() {
 	i.SystemLed.High()
 }
 
-func (i *IoPins) SystemIndicate(StatFlash flash.StatFlash) {
-
+func (i *IoPins) SystemIndicate(flashErrors flash.FlashErrors) {
+	if flashErrors.UnmountExitStatus != 0 {
+		i.UnmountErrorIndicate()
+	} else if flashErrors.MountExitStatus != 0 {
+		i.FlashMountErrorIndicate()
+	} else {
+		i.FlashMountedIndicate()
+	}
 }
